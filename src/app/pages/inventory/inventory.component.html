@@ -1,0 +1,80 @@
+<div class="card">
+  <h5>Inventory</h5>
+
+  <!-- Search input field -->
+  <span class="p-input-icon-left">
+    <i class="pi pi-search"></i>
+    <input pInputText type="text" (input)="applyGlobalFilter($event.target.value)" placeholder="Search" />
+  </span>
+<hr>
+  <p-table [value]="products" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+    <!-- Table header template -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:20%">Id</th>
+        <th style="width:20%">Name</th>
+        <th style="width:20%">Stock</th>
+        <th style="width:20%">Supplier</th>
+        <th style="width:20%">Action</th>
+      </tr>
+    </ng-template>
+
+    <!-- Table body template -->
+    <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="product">
+        <td>
+          <!-- Product ID -->
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.productId">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{product.productId}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <!-- Product Name -->
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.name" required>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{product.name}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <!-- Stock Quantity -->
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.stockQuantity" required>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{product.stockQuantity}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <!-- Supplier IDs -->
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.supplierIds">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{product.supplierIds}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <!-- Edit, Save, Cancel Buttons -->
+          <div class="flex align-items-center justify-content-center gap-2">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-plus" (click)="onRowEditInit(product)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

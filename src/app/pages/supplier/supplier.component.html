@@ -1,0 +1,120 @@
+<div class="card">
+  <h5>Add Supplier</h5>
+  <form [formGroup]="supplierForm" (ngSubmit)="saveSupplier()">
+      <input type="text" pInputText formControlName="supplierAgency" placeholder="Supplier Agency" class="mr-5 mb-3">
+      <input type="text" pInputText formControlName="contactPerson" placeholder="Contact Person" class="mr-5">
+      <input type="email" pInputText formControlName="supplierEmail" placeholder="Supplier Email" class="mr-5">
+      <input type="tel" pInputText formControlName="supplierPhone" placeholder="Supplier Phone" class="mr-5">
+      <input type="email" pInputText formControlName="contactPersonEmail" placeholder="Contact Person Email" class="mr-5">
+      <input type="tel" pInputText formControlName="contactPersonPhone" placeholder="Contact Person Phone" class="mr-5">
+      <input type="text" pInputText formControlName="address" placeholder="Address" class="mr-5">
+      <button pButton pRipple type="submit" label="Add Supplier" class="p-button-raised p-button-success mr-5"></button>
+  </form>
+  <hr>
+  <h5>Add Supplier with CSV</h5>
+<p-fileUpload #uploader mode="basic" name="demo[]" (onSelect)="onUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
+</div>
+<hr>
+<div class="card">
+    <h5>Supplier List</h5>
+    <p-table [value]="suppliers" dataKey="supplierID" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:20%">ID</th>
+          <th style="width:20%">Supplier Agency</th>
+          <th style="width:20%">Contact Person</th>
+          <th style="width:20%">Supplier Email</th>
+          <th style="width:20%">Supplier Phone</th>
+          <th style="width:20%">Contact Person Email</th>
+          <th style="width:20%">Contact Person Phone</th>
+          <th style="width:20%">Address</th>
+          <th style="width:20%">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-supplier let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="supplier">
+          <td>{{ supplier.supplierID }}</td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="supplier.supplierAgency">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ supplier.supplierAgency }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="supplier.contactPerson">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ supplier.contactPerson }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="email" [(ngModel)]="supplier.supplierEmail">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ supplier.supplierEmail }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="tel" [(ngModel)]="supplier.supplierPhone">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ supplier.supplierPhone }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="email" [(ngModel)]="supplier.contactPersonEmail">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ supplier.contactPersonEmail }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="tel" [(ngModel)]="supplier.contactPersonPhone">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ supplier.contactPersonPhone }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="supplier.address">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ supplier.address }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <div class="flex align-items-center justify-content-center gap-2">
+              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(supplier)" class="p-button-rounded p-button-text"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(supplier)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(supplier, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+              <!-- Change icon to trash -->
+              <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteSupplier(supplier.supplierID)" class="p-button-rounded p-button-text p-button-danger"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+</div>
+<p-toast></p-toast>

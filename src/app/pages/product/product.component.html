@@ -1,0 +1,139 @@
+<!-- product.component.html -->
+<div class="card">
+  <h5>Add Product</h5>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <input type="text" formControlName="name" placeholder="Name" pInputText class="mb-3 mr-5"> 
+  <input type="text" formControlName="description" placeholder="Description" class="mb-3 mr-5" pInputText> 
+  <p-inputNumber formControlName="price" inputId="locale-indian" placeholder="Price" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
+  <p-inputNumber inputId="locale-indian" formControlName="tax" placeholder="Tax" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
+  <p-inputNumber inputId="locale-indian" formControlName="total" placeholder="Total" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
+  <p-inputNumber placeholder="Stock" formControlName="stock" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" class="mb-3 mr-5"></p-inputNumber>
+  <p-inputNumber inputId="locale-indian" formControlName="purchasePrice" placeholder="Purchase Price" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
+  <p-multiSelect class="mb-3 mr-5" [options]="suppliers" formControlName="supplierIds" defaultLabel="Select Suppliers" optionLabel="supplierAgency" display="chip"></p-multiSelect>
+  <button pButton type="submit" class="mb-3 mr-5" label="Submit" icon="pi pi-check" class="p-button-raised p-button-success"></button>
+</form>
+<hr>
+<div>
+  <h5>Add Products with CSV</h5>
+  <p-fileUpload #uploader mode="basic" name="products[]" (onSelect)="onUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
+</div>
+</div>
+<hr>
+<div class="card">
+  <h5>Product List</h5>
+  <p-table [value]="products" dataKey="productId" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:20%">ID</th>
+        <th style="width:20%">Name</th>
+        <th style="width:20%">Description</th>
+        <th style="width:20%">Price</th>
+        <th style="width:20%">Tax</th>
+        <th style="width:20%">Total</th>
+        <th style="width:20%">Stock Quantity</th>
+        <th style="width:20%">Purchase Price</th>
+        <th style="width:20%">Barcode Number</th>
+        <th style="width:20%">Barcode Image</th>
+        <th style="width:20%">Supplier IDs</th>
+        <th style="width:20%">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="product">
+        <td>{{ product.productId }}</td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.name">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.name }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.description">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.description }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="number" [(ngModel)]="product.price">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.price }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="number" [(ngModel)]="product.tax">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.tax }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="number" [(ngModel)]="product.total">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.total }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="number" [(ngModel)]="product.stockQuantity">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.stockQuantity }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="number" [(ngModel)]="product.purchasePrice">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.purchasePrice }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>{{ product.barcodeNumber }}</td>
+        <td>
+          <img *ngIf="product.barcodeImage" [src]="getBarcodeImageSrc(product)" alt="Barcode Image" width="100" height="50">
+          <span *ngIf="!product.barcodeImage">No Image Available</span>
+        </td>
+        <td>{{ product.supplierIds }}</td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)"
+              class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)"
+              class="p-button-rounded p-button-text p-button-success mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product, ri)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
+            <!-- Change icon to trash -->
+            <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteProduct(product.productId)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast></p-toast>
+
+<p-toast></p-toast>

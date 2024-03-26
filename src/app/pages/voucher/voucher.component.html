@@ -1,0 +1,96 @@
+<div class="card">
+  <h5>Add Voucher</h5>
+<form [formGroup]="voucherForm" (ngSubmit)="onSubmit()">
+    <input type="text" pInputText formControlName="voucherCode" placeholder="Code" class="mb-3 mr-5">
+    <p-inputNumber class="mb-3 mr-5" formControlName="discountAmount" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" placeholder="Discount"></p-inputNumber>
+    <p-inputNumber class="mb-3 mr-5" formControlName="validForNumberOfCustomers" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" placeholder="Valid For Customers"></p-inputNumber>
+    <p-inputNumber class="mb-3 mr-5" formControlName="validForNumberOfDays" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" placeholder="Valid For Days"></p-inputNumber>
+    <button class="mb-3 mr-5" pButton pRipple type="submit" label="Create" class="p-button-raised p-button-success"></button>
+  </form>
+</div>
+<hr>
+<div class="card">
+    <h5>Vouchers List</h5>
+    <p-table [value]="vouchers" dataKey="voucherID" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>Code</th>
+          <th>Discount (%)</th>
+          <th>Valid for Number of Customers</th>
+          <th>Valid for Number of Days</th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-voucher let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="voucher" [pEditableRowIndex]="ri">
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="voucher.voucherID" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{voucher.voucherID}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="voucher.voucherCode" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{voucher.voucherCode}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="voucher.discountAmount" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{voucher.discountAmount}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="voucher.validForNumberOfCustomers" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{voucher.validForNumberOfCustomers}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="voucher.validForNumberOfDays" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{voucher.validForNumberOfDays}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <div class="flex align-items-center justify-content-center gap-2">
+              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                class="p-button-rounded p-button-text"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                (click)="onRowEditSave(voucher)"
+                class="p-button-rounded p-button-text p-button-success mr-2"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                (click)="onRowEditCancel(voucher, ri)"
+                class="p-button-rounded p-button-text p-button-danger"></button>
+              <!-- Delete button -->
+              <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
+                (click)="onDeleteVoucher(voucher.voucherID)"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <p-toast></p-toast>

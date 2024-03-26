@@ -1,0 +1,88 @@
+<div class="card">
+  <h5>Add Customer</h5>
+  <form [formGroup]="customerForm" (ngSubmit)="addCustomer()">
+    <input type="text" pInputText formControlName="name" placeholder="Name" class="mr-5 mb-3">
+    <input type="email" pInputText formControlName="email" placeholder="Email" class="mr-5 mb-3">
+    <input type="tel" pInputText formControlName="phone" placeholder="Phone" class="mr-5 mb-3">
+    <input type="text" pInputText formControlName="address" placeholder="Address" class="mr-5 mb-3"> <!-- Add address field -->
+    <button pButton type="submit" label="Submit" class="p-button-raised p-button-success" class="mr-5 mb-3"></button>
+  </form>
+  <hr>
+  <h5>Add Customer with CSV</h5>
+<p-fileUpload #uploader mode="basic" name="demo[]" (onSelect)="onCustomerUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
+
+</div>
+
+<hr>
+
+<div class="card">
+  <h5>Customer Editing</h5>
+  <p-table [value]="customers" dataKey="id" editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th> <!-- Add Address column -->
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="customer">
+          <td>{{ customer.id }}</td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="customer.name">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{customer.name}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="email" [(ngModel)]="customer.email">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{customer.email}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="tel" [(ngModel)]="customer.phone">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{customer.phone}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="customer.address">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{customer.address}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(customer)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(customer)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(customer)" class="p-button-rounded p-button-text p-button-danger"></button>
+            <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-text" (click)="deleteCustomer(customer.id)"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Add this in your HTML template -->
+<p-toast></p-toast>
