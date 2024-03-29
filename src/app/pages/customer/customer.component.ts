@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerRequest } from '../../model/customer/customer-request.model';
 import { CustomerResponse } from '../../model/customer/customer-response.model';
 import { CustomerService } from '../../service/customer.service';
 import { MessageService } from 'primeng/api';
+import { PdfGeneratorComponent } from '../pdf-generator/pdf-generator.component';
 
 @Component({
   selector: 'app-customer',
@@ -15,6 +16,7 @@ export class CustomerComponent implements OnInit {
   customers: CustomerResponse[];
   clonedCustomers: { [s: string]: CustomerResponse; } = {};
   customerForm: FormGroup;
+  @ViewChild(PdfGeneratorComponent) pdfGenerator: PdfGeneratorComponent;
 
   constructor(
     private customerService: CustomerService,
@@ -32,7 +34,7 @@ export class CustomerComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      address: ['', Validators.required] // Add address field to the form
+      address: ['', Validators.required] 
     });
   }
 
@@ -54,10 +56,15 @@ export class CustomerComponent implements OnInit {
   }
 
   loadCustomers() {
-    this.customerService.getAllCustomers().subscribe(customers => {
-      this.customers = customers;
-      console.log(customers)
-    });
+    this.customerService.getAllCustomers().subscribe(
+      customers => {
+        this.customers = customers;
+      },
+      error => {
+        console.error('Error fetching customers:', error);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch customers' });
+      }
+    );
   }
 
   onRowEditInit(customer: CustomerResponse) {
@@ -69,7 +76,7 @@ export class CustomerComponent implements OnInit {
       name: customer.name,
       email: customer.email,
       phone: customer.phone,
-      address: customer.address // Include address in the update request
+      address: customer.address
     };
 
     this.customerService.updateCustomer(customer.id, customerRequest).subscribe(
@@ -113,12 +120,11 @@ export class CustomerComponent implements OnInit {
 
     const fileToUpload: File = files.item(0);
     this.uploadCustomerFile(fileToUpload);
-}
+  }
 
-uploadCustomerFile(file: File): void {
+  uploadCustomerFile(file: File): void {
     this.customerService.uploadCSVFile(file).subscribe(
       (response: any) => {
-        console.log('Server Response:', response); // Log the response
         if (response && response.message === 'CSV processed successfully') {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File uploaded successfully' });
           this.loadCustomers();
@@ -129,12 +135,29 @@ uploadCustomerFile(file: File): void {
           this.loadCustomers();
         }
       },
-      (error) => {
+      error => {
         console.error('Error uploading file:', error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to upload file' });
         this.loadCustomers();
       }
     );
-}
+  }
 
+  downloadPdf(): void {
+    const pdfData = this.customers.map(customer => {
+      return {
+        'ID': customer.id,
+        'Name': customer.name,
+        'Email': customer.email,
+        'Phone': customer.phone,
+        'Address': customer.address
+      };
+    });
+
+    this.pdfGenerator.tableData = pdfData;
+    this.pdfGenerator.fileName = 'Customer_List';
+    this.pdfGenerator.generatePDF();
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Customer List Printed' });
+  }
+  
 }

@@ -1,0 +1,127 @@
+<app-pdf-generator [tableData]="users" fileName="Users_List"></app-pdf-generator>
+<div class="card">
+    <h5><strong>Add User</strong></h5>
+    <hr>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fullName" class="block">Full Name*</label>
+                <input id="fullName" class="mb-3 mr-5" type="text" aria-describedby="fullName-help" pInputText formControlName="fullName" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="username" class="block">Username*</label>
+                <input id="username" class="mb-3 mr-5" type="text" aria-describedby="username-help" pInputText formControlName="username" />
+            </div>
+            <div class="form-group">
+                <label for="password" class="block">Password*</label>
+                <input id="password" class="mb-3 mr-5" type="password" aria-describedby="password-help" pInputText formControlName="password" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="email" class="block">Email*</label>
+                <input id="email" class="mr-5" type="email" aria-describedby="email-help" pInputText formControlName="email" />
+                <div *ngIf="userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched)">
+                    <div *ngIf="userForm.get('email').errors.required">Email is required.</div>
+                    <div *ngIf="userForm.get('email').errors.email">Invalid email format.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone*</label>
+                <input id="phone" class="mb-3 mr-5" type="tel" aria-describedby="phone-help" pInputText formControlName="phone" />
+                <div *ngIf="userForm.get('phone').invalid && (userForm.get('phone').dirty || userForm.get('phone').touched)">
+                    <div *ngIf="userForm.get('phone').errors.required">Phone number is required.</div>
+                    <div *ngIf="userForm.get('phone').errors.pattern">Invalid phone number format. Please enter 10 digits.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group" [style]="{'min-width': '15.8%'}">
+                <label for="role">Role*</label>
+                <p-dropdown [options]="roles" class="mb-3" [style]="{'min-width': '100%'}" [(ngModel)]="selectedRole" placeholder="Select a Role" optionLabel="label" formControlName="role" [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group mr-5" [style]="{'min-width': '15.8%'}">
+                <button pButton pRipple type="submit" label="Add User" [style]="{'min-width': '100%'}" icon="pi pi-plus" class="mr-5 mb-3 p-button-raised p-button-success"></button>
+            </div>
+            <div class="form-group" [style]="{'min-width': '17.8%'}">
+                <button pButton pRipple (click)="this.userForm.reset()" [style]="{'min-width': '100%'}" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
+            </div>
+                <div class="form-group mr-5" [style]="{'min-width': '15.8%'}">
+                <button pButton pRipple (click)="downloadPdf()" [style]="{'min-width': '100%'}" icon="pi pi-print" type="button" label="Print User-List" class=" p-button-raised p-button-info"></button>
+            </div>
+        </div>
+       
+    </form>
+</div>
+  <hr>
+  <div class="card">
+    <h5><strong>User</strong></h5>
+    <p-toast></p-toast>
+    <div class="card">
+        <h5>Row Editing</h5>
+        <p-table [value]="users" dataKey="userID" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+                <th style="width:20%">Id</th>
+              <th style="width:20%">Username</th>
+              <th style="width:20%">Full Name</th>
+              <th style="width:20%">Email</th>
+              <th style="width:20%">Phone</th>
+              <th style="width:20%">Role</th>
+              <th style="width:20%">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user let-editing="editing">
+            <tr [pEditableRow]="user">
+              <td>{{ user.userID }}</td>
+              <td>{{ user.username }}</td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="user.name" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ user.name }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                    {{ user.email }}
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="user.phone">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ user.phone }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-dropdown [options]="roles" [(ngModel)]="user.role"></p-dropdown>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ user.role }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <div class="flex align-items-center justify-content-center gap-2">
+                  <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(user)" class="p-button-rounded p-button-text"></button>
+                  <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(user)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                  <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(user)" class="p-button-rounded p-button-text p-button-danger"></button>
+                  <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteUser(user.userID)" class="p-button-rounded p-button-text p-button-danger"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>      
+</div>

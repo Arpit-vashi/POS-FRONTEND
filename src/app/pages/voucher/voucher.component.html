@@ -1,23 +1,45 @@
+<app-pdf-generator [tableData]="vouchers" fileName="Voucher_List"></app-pdf-generator>
 <div class="card">
-  <h5>Add Voucher</h5>
-<form [formGroup]="voucherForm" (ngSubmit)="onSubmit()">
-    <input type="text" pInputText formControlName="voucherCode" placeholder="Code" class="mb-3 mr-5">
-    <p-inputNumber class="mb-3 mr-5" formControlName="discountAmount" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" placeholder="Discount"></p-inputNumber>
-    <p-inputNumber class="mb-3 mr-5" formControlName="validForNumberOfCustomers" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" placeholder="Valid For Customers"></p-inputNumber>
-    <p-inputNumber class="mb-3 mr-5" formControlName="validForNumberOfDays" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" placeholder="Valid For Days"></p-inputNumber>
-    <button class="mb-3 mr-5" pButton pRipple type="submit" label="Create" class="p-button-raised p-button-success"></button>
+  <h5><strong>Add Voucher</strong></h5>
+  <hr>
+  <form [formGroup]="voucherForm" (ngSubmit)="onSubmit()" class="voucher-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="voucherCode" class="block">Voucher Code*</label>
+        <input type="text" pInputText formControlName="voucherCode" class="mb-3 mr-5">
+      </div>
+      <div class="form-group">
+        <label for="discountAmount" class="block">Discount* (%)</label>
+        <p-inputNumber class="mb-3 mr-5" formControlName="discountAmount" mode="decimal" inputId="withoutgrouping" [useGrouping]="false"></p-inputNumber>
+      </div>
+    </div>
+    <div class="form-row">
+    <div class="form-group">
+      <label for="validForNumberOfCustomers" class="block">Valid For Number of Bills*</label>
+      <p-inputNumber class="mb-3 mr-5" formControlName="validForNumberOfCustomers" mode="decimal" inputId="withoutgrouping" [useGrouping]="false"></p-inputNumber>
+    </div>
+    <div class="form-group">
+      <label for="validForNumberOfDays" class="block">Valid For Number of Days*</label>
+      <p-inputNumber class="mb-3 mr-5" formControlName="validForNumberOfDays" mode="decimal" inputId="withoutgrouping" [useGrouping]="false"></p-inputNumber>
+    </div>
+  </div>
+    <div class="form-actions">
+      <button pButton pRipple type="submit" [style]="{'min-width': '15.8%'}" label="Create" class="p-button-raised p-button-success add"></button>
+      <button pButton pRipple (click)="resetForm()" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
+      <button pButton pRipple (click)="downloadPdf()" [style]="{'min-width': '15.8%'}" icon="pi pi-print" type="button" label="Print Voucher-List" class="p-button-raised p-button-info"></button>
+    </div>
   </form>
 </div>
 <hr>
 <div class="card">
-    <h5>Vouchers List</h5>
+    <h5><strong>Vouchers List</strong></h5>
     <p-table [value]="vouchers" dataKey="voucherID" editMode="row" [tableStyle]="{'min-width': '50rem'}">
       <ng-template pTemplate="header">
         <tr>
           <th>Id</th>
           <th>Code</th>
           <th>Discount (%)</th>
-          <th>Valid for Number of Customers</th>
+          <th>Valid for Number of Bills</th>
           <th>Valid for Number of Days</th>
           <th>Action</th>
         </tr>

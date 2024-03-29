@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SupplierService } from '../../service/supplier.service';
 import { SupplierRequest } from '../../model/supplier/supplier-request.model';
 import { SupplierResponse } from '../../model/supplier/supplier-response.model';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
+import { PdfGeneratorComponent } from '../pdf-generator/pdf-generator.component'; // Import PdfGeneratorComponent
 
 @Component({
   selector: 'app-supplier',
@@ -12,6 +13,7 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./supplier.component.scss']
 })
 export class SupplierComponent implements OnInit {
+  @ViewChild(PdfGeneratorComponent) pdfGenerator: PdfGeneratorComponent; // ViewChild for PdfGeneratorComponent
   suppliers: SupplierResponse[] = [];
   clonedSuppliers: { [s: string]: SupplierResponse; } = {};
   supplierForm: FormGroup;
@@ -46,7 +48,6 @@ export class SupplierComponent implements OnInit {
       (suppliers: SupplierResponse[]) => {
         this.suppliers = suppliers;
         this.cloneSuppliers();
-        //this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Suppliers loaded successfully' });
       },
       (error) => {
         console.error('Error loading suppliers:', error);
@@ -84,22 +85,40 @@ export class SupplierComponent implements OnInit {
     this.supplierForm.reset();
   }
 
-  onRowEditInit(supplier: SupplierResponse): void {
-    this.clonedSuppliers[supplier.supplierID] = { ...supplier };
-  }
+  onRowEditInit(supplier: SupplierResponse) {
+    this.clonedSuppliers[supplier.supplierID.toString()] = { ...supplier };
+}
 
-  onRowEditSave(supplier: SupplierResponse): void {
-    // Implement if needed
-  }
+onRowEditSave(supplier: SupplierResponse) {
+    const supplierRequest: SupplierRequest = {
+        supplierAgency: supplier.supplierAgency,
+        contactPerson: supplier.contactPerson,
+        supplierEmail: supplier.supplierEmail,
+        supplierPhone: supplier.supplierPhone,
+        contactPersonEmail: supplier.contactPersonEmail,
+        contactPersonPhone: supplier.contactPersonPhone,
+        address: supplier.address
+    };
 
-  onRowEditCancel(supplier: SupplierResponse): void {
-    this.suppliers.forEach((value, index) => {
-      if (value.supplierID === supplier.supplierID && this.clonedSuppliers[supplier.supplierID]) {
-        this.suppliers[index] = { ...this.clonedSuppliers[supplier.supplierID] };
-        delete this.clonedSuppliers[supplier.supplierID];
-      }
-    });
-  }
+    this.supplierService.updateSupplier(supplier.supplierID, supplierRequest).subscribe(
+        updatedSupplier => {
+            delete this.clonedSuppliers[supplier.supplierID.toString()];
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Supplier updated successfully' });
+        },
+        error => {
+            console.error('Error updating supplier:', error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update supplier' });
+        }
+    );
+}
+
+onRowEditCancel(supplier: SupplierResponse) {
+    const index = this.suppliers.findIndex(supp => supp.supplierID === supplier.supplierID);
+    if (index !== -1) {
+        this.suppliers[index] = this.clonedSuppliers[supplier.supplierID.toString()];
+        delete this.clonedSuppliers[supplier.supplierID.toString()];
+    }
+}
 
   deleteSupplier(supplierID: number): void {
     this.supplierService.deleteSupplier(supplierID).subscribe(
@@ -128,7 +147,7 @@ export class SupplierComponent implements OnInit {
   uploadFile(file: File): void {
     this.supplierService.uploadFile(file).subscribe(
       (response: any) => {
-        console.log('Server Response:', response); // Log the response
+        console.log('Server Response:', response);
         if (response && response.message === 'CSV processed successfully') {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File uploaded successfully' });
           this.loadSuppliers();
@@ -146,5 +165,23 @@ export class SupplierComponent implements OnInit {
       }
     );
   }
-  
+
+  downloadPdf(): void {
+    const pdfData = this.suppliers.map(supplier => {
+      return {
+        'Supplier Id': supplier.supplierID,
+        'Supplier Agency': supplier.supplierAgency,
+        'Contact Person': supplier.contactPerson,
+        'Supplier Email': supplier.supplierEmail,
+        'Supplier Phone': supplier.supplierPhone,
+        'Contact Person Email': supplier.contactPersonEmail,
+        'Contact Person Phone': supplier.contactPersonPhone,
+        'Address': supplier.address
+      };
+    });
+
+    this.pdfGenerator.tableData = pdfData; // Pass data to PdfGeneratorComponent
+    this.pdfGenerator.fileName = 'Supplier_List'; // Set filename
+    this.pdfGenerator.generatePDF(); // Generate PDF
+  }
 }

@@ -1,14 +1,34 @@
+<app-pdf-generator [tableData]="customers" fileName="Customer_List"></app-pdf-generator>
 <div class="card">
-  <h5>Add Customer</h5>
+  <h5><strong>Add Customer</strong></h5>
+  <hr>
   <form [formGroup]="customerForm" (ngSubmit)="addCustomer()">
-    <input type="text" pInputText formControlName="name" placeholder="Name" class="mr-5 mb-3">
-    <input type="email" pInputText formControlName="email" placeholder="Email" class="mr-5 mb-3">
-    <input type="tel" pInputText formControlName="phone" placeholder="Phone" class="mr-5 mb-3">
-    <input type="text" pInputText formControlName="address" placeholder="Address" class="mr-5 mb-3"> <!-- Add address field -->
-    <button pButton type="submit" label="Submit" class="p-button-raised p-button-success" class="mr-5 mb-3"></button>
+    <div class="form-row">
+      <div class="form-group">
+      <label for="name" class="block">Customer Name*</label>
+      <input type="text" pInputText formControlName="name" class="mr-5 mb-3">
+      </div>
+      <div class="form-group">
+      <label for="address" class="block">Customer Adress*</label>
+      <input type="text" pInputText formControlName="address"  class="mr-5 mb-3">
+      </div>
+  </div>
+  <div class="form-row">
+  <div class="form-group">
+      <label for="Email" class="block">Customer Email*</label>
+      <input type="email" pInputText formControlName="email" class="mr-5 mb-3">
+    </div>
+    <div class="form-group">
+      <label for="phone" class="block">Customer Phone*</label>
+      <input type="tel" pInputText formControlName="phone" class="mr-5 mb-3">
+    </div>
+  </div>
+    <button pButton type="submit" [style]="{'min-width': '15.8%'}" class="p-button-raised p-button-success add" label="Add Customer" icon="pi pi-plus"></button>
+    <button pButton pRipple (click)="customerForm.reset()" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
+    <button pButton pRipple (click)="downloadPdf()" [style]="{'min-width': '15.8%'}" icon="pi pi-print" type="button" label="Print Product List" class="p-button-raised p-button-info"></button>
   </form>
   <hr>
-  <h5>Add Customer with CSV</h5>
+  <h5><strong>Add Customer with CSV</strong></h5>
 <p-fileUpload #uploader mode="basic" name="demo[]" (onSelect)="onCustomerUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
 
 </div>
@@ -16,7 +36,7 @@
 <hr>
 
 <div class="card">
-  <h5>Customer Editing</h5>
+  <h5><strong>Customer List</strong></h5>
   <p-table [value]="customers" dataKey="id" editMode="row">
     <ng-template pTemplate="header">
       <tr>
@@ -24,7 +44,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Phone</th>
-        <th>Address</th> <!-- Add Address column -->
+        <th>Address</th>
         <th></th>
       </tr>
     </ng-template>
@@ -76,13 +96,11 @@
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(customer)" class="p-button-rounded p-button-text"></button>
             <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(customer)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
             <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(customer)" class="p-button-rounded p-button-text p-button-danger"></button>
-            <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-text" (click)="deleteCustomer(customer.id)"></button>
+            <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteCustomer(customer.id)"></button>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
-
-<!-- Add this in your HTML template -->
 <p-toast></p-toast>

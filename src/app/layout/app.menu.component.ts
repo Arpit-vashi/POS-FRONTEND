@@ -17,19 +17,34 @@ export class AppMenuComponent implements OnInit {
             {
                 items: [
                     { label: 'Sales', icon: 'pi pi-fw pi-shopping-bag', routerLink: ['/'] },
-                    // { label: 'Barcode', icon: 'pi pi-fw pi-check-square', routerLink: ['/barcodes'] },
                     { label: 'Product', icon: 'pi pi-fw pi-tags', routerLink: ['/product'] },
                     { label: 'Customers', icon: 'pi pi-fw pi-user', routerLink: ['/customer'] },
                     { label: 'Supplier', icon: 'pi pi-fw pi-user-plus', routerLink: ['/supplier'] }, 
                     { label: 'Vouchers', icon: 'pi pi-fw pi-ticket', routerLink: ['/voucher'] },
                     { label: 'Purchase Order', icon: 'pi pi-fw pi-box', routerLink: ['/purchase-order'] },
                     { label: 'Inventory', icon: 'pi pi-fw pi-bars', routerLink: ['/inventory'] },
-                    { label: 'Invoice', icon: 'pi pi-fw pi-book', routerLink: ['/uikit/input'] },
+                    { label: 'Invoice', icon: 'pi pi-fw pi-book', routerLink: ['/invoice'] },
+                    { label: 'Print Barcodes', icon: 'pi pi-fw pi-print', routerLink: ['/print-Barcode'] },
                     { label: 'Return', icon: 'pi pi-fw pi-refresh', routerLink: ['/uikit/list'] },
-                    { label: 'Account', icon: 'pi pi-fw pi-money-bill', routerLink: ['/uikit/tree'] },
-                    { label: 'Exmployee', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/panel'] },
+                    { label: 'User', icon: 'pi pi-fw pi-id-card', routerLink: ['/user'] },
                     { label: 'Reports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/overlay'] },
-                    { label: 'Admin', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
+                    { label: 'Admin Insights', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
+                    {
+                        label: 'Utils',
+                        icon: 'pi pi-fw pi-th-large',
+                        items: [
+                            {
+                                label: 'Excel To CSV',
+                                icon: 'pi pi-fw pi-file-excel',
+                                routerLink: ['/excel']
+                            },
+                            {
+                                label: 'CSV to Excel',
+                                icon: 'pi pi-fw pi-file',
+                                routerLink: ['/csv']
+                            },
+                        ]
+                    },
                 ]
             },
         ];

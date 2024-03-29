@@ -8,7 +8,7 @@ import { PurchaseOrderResponse } from '../model/purchase-order/purchase-order-re
   providedIn: 'root'
 })
 export class PurchaseOrderService {
-  private apiUrl = '/api/purchaseOrders';
+  private apiUrl = 'http://localhost:8080/api/purchaseOrders';
 
   constructor(private http: HttpClient) {}
 

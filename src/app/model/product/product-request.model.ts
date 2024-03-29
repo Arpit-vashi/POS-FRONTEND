@@ -3,7 +3,7 @@ export interface ProductRequest {
     description: string;
     price: number;
     tax: number;
-    total: number;
+    total?: number;
     stockQuantity: number;
     purchasePrice: number;
     supplierIds: number[];

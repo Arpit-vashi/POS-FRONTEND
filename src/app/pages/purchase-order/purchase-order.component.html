@@ -1,73 +1,100 @@
+<app-pdf-generator [tableData]="purchaseOrders" fileName="Purchase_Order_List"></app-pdf-generator>
 <div class="card">
-  <h5>Add Purchase-Order</h5>
-<form [formGroup]="purchaseOrderForm" (ngSubmit)="onSubmit()">
-  <p-dropdown formControlName="supplier" [options]="suppliers" placeholder="Select Supplier" optionLabel="supplierAgency" class="mb-3 mr-5"></p-dropdown>
-  <p-multiSelect formControlName="products" [options]="products" placeholder="Select Product" optionLabel="productName" display="chip" class="mb-3 mr-5"></p-multiSelect>
-  <p-dropdown formControlName="store" [options]="[{ label: 'Store1', value: 'Store1' }]" placeholder="Select Store" optionLabel="label" class="mb-3 mr-5"></p-dropdown>
-  <p-inputNumber formControlName="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="10000" class="mb-3 mr-5"></p-inputNumber>
-  <p-inputNumber formControlName="buyingPrice" inputId="locale-indian" mode="decimal" locale="en-IN" [minFractionDigits]="2" class="mb-3 mr-5"></p-inputNumber>
-  <p-inputNumber formControlName="sellingPrice" inputId="locale-indian" mode="decimal" locale="en-IN" [minFractionDigits]="2" class="mb-3 mr-5"></p-inputNumber>
-  <p-calendar formControlName="orderDate" placeholder="Order Date" dateFormat="mm-dd-yy" inputId="order-date" class="mb-3 mr-5"></p-calendar>
-  <p-calendar formControlName="deliveryDate" placeholder="Delivery Date" dateFormat="mm-dd-yy" inputId="delivery-date" class="mb-3 mr-5"></p-calendar>
-  <p-dropdown formControlName="transportMethod" [options]="transportMethods" placeholder="Select Transport Method" optionLabel="name" class="mb-3 mr-5"></p-dropdown>
-  <p-dropdown formControlName="paymentMethod" [options]="paymentMethods" placeholder="Select Payment Method" optionLabel="name" class="mb-3 mr-5"></p-dropdown>
-  <p-dropdown formControlName="status" [options]="statusOptions" placeholder="Select Status" optionLabel="name" class="mb-3 mr-5"></p-dropdown>
-  <button pButton pRipple type="submit" label="Success" class="p-button-raised p-button-success mb-3 mr-5"></button>
-</form>
+  <h5><strong>Add Purchase-Order</strong></h5>
+  <hr>
+  <form [formGroup]="purchaseOrderForm" (ngSubmit)="onSubmit()" class="product-form">
+    <div class="form-row">
+      <div class="form-group" [style]="{'min-width': '17.8%'}">
+        <label for="supplier">Select Supplier*</label>
+        <p-dropdown formControlName="supplier" (ngModelChange)="onSupplierChange($event)" [options]="suppliers" optionLabel="supplierAgency" display="chip" placeholder="Select Supplier" [style]="{'min-width': '100%'}" class="mb-3 mr-5"></p-dropdown>
+      </div>
+      <div class="form-group" [style]="{'min-width': '17.8%'}">
+        <label for="products">Select Product*</label>
+        <p-dropdown formControlName="products" (ngModelChange)="onSupplierChange($event)" [options]="products" optionLabel="label" display="chip" placeholder="Select Product" [style]="{'width': '100%'}" class="mb-3 mr-5"></p-dropdown>
+      </div>
+      <div class="form-group" [style]="{'min-width': '17.8%'}">
+        <label for="store">Select Store*</label>
+        <p-dropdown formControlName="store" [options]="[{ label: 'Store1', value: 'Store1' }]" optionLabel="label" placeholder="Select Store" [style]="{'width': '100%'}" class="mb-3 mr-5"></p-dropdown>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="quantity">Quantity*</label>
+        <p-inputNumber formControlName="quantity" mode="decimal" inputId="minmax-buttons" [min]="0" [max]="10000" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-inputNumber>
+      </div>
+      <div class="form-group">
+        <label for="buyingPrice">Buying Price*</label>
+        <p-inputNumber formControlName="buyingPrice" inputId="locale-indian" mode="decimal" locale="en-IN" [minFractionDigits]="2" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-inputNumber>
+      </div>
+      <div class="form-group">
+        <label for="sellingPrice">Selling Price*</label>
+        <p-inputNumber formControlName="sellingPrice" inputId="locale-indian" mode="decimal" locale="en-IN" [minFractionDigits]="2" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-inputNumber>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="orderDate">Order Date*</label>
+        <p-calendar formControlName="orderDate" placeholder="Order Date" dateFormat="mm-dd-yy" inputId="order-date" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-calendar>
+      </div>
+      <div class="form-group">
+        <label for="deliverDate">Delivery Date*</label>
+        <p-calendar formControlName="deliverDate" placeholder="Delivery Date" dateFormat="mm-dd-yy" inputId="delivery-date" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-calendar>
+      </div>
+      <div class="form-group" [style]="{'min-width': '17.8%'}">
+        <label for="transportMethod">Select Transport Method*</label>
+        <p-dropdown formControlName="transportMethod" [options]="transportMethods" optionLabel="name" placeholder="Transport Method" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-dropdown>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" [style]="{'min-width': '17.8%'}">
+        <label for="paymentMethod">Select Payment Method*</label>
+        <p-dropdown formControlName="paymentMethod" [options]="paymentMethods" optionLabel="name" placeholder="Payment Method" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-dropdown>
+      </div>
+      <div class="form-group" [style]="{'min-width': '17.8%'}">
+        <label for="status">Select Status*</label>
+        <p-dropdown formControlName="status" [options]="statusOptions" optionLabel="name" placeholder="Select Status" class="mb-3 mr-5" [style]="{'width': '100%'}"></p-dropdown>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button pButton type="submit" [style]="{'min-width': '15.8%'}" class="p-button-raised p-button-success add" label="Add Purchase-Order" icon="pi pi-plus"></button>
+      <button pButton pRipple (click)="this.purchaseOrderForm.reset()" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
+      <button pButton pRipple (click)="downloadPurchaseOrdersPdf()" [style]="{'min-width': '15.8%'}" icon="pi pi-print" type="button" label="Print Purchase-Order List" class="p-button-raised p-button-info"></button>
+    </div>
+  </form>
 </div>
+
 <hr>
   <div class="card">
-    <h5>Purchase Order List</h5>
+    <h5><strong>Purchase Order List</strong></h5>
     <p-table [value]="purchaseOrders" dataKey="orderId" editMode="row" [tableStyle]="{'min-width': '50rem'}">
       <ng-template pTemplate="header"> 
         <tr>
-          <th style="width:20%">Order ID</th>
-          <th style="width:20%">Supplier</th>
-          <th style="width:20%">Products</th>
-          <th style="width:20%">Store</th>
-          <th style="width:20%">Quantity</th>
-          <th style="width:20%">Buying Price</th>
-          <th style="width:20%">Selling Price</th>
-          <th style="width:20%">Order Date</th>
-          <th style="width:20%">Delivery Date</th>
-          <th style="width:20%">Transport Method</th>
-          <th style="width:20%">Payment Method</th>
-          <th style="width:20%">Status</th>
-          <th style="width:20%">Action</th>
+          <th>Order ID</th>
+          <th style="width:10%">Products</th>
+          <th>Supplier</th>
+          <th style="width:10%">Store</th>
+          <th>Quantity</th>
+          <th>Buying Price</th>
+          <th>Selling Price</th>
+          <th style="width:10%">Order Date</th>
+          <th style="width:10%">Delivery Date</th>
+          <th>Transport Method</th>
+          <th>Payment Method</th>
+          <th>Status</th>
+          <th>Action</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-purchaseOrder let-editing="editing" let-ri="rowIndex">
         <tr [pEditableRow]="purchaseOrder">
-          <td>{{ purchaseOrder.orderId }}</td>
+          <td>{{ purchaseOrder.id }}</td>
           <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <p-dropdown [options]="suppliers" [(ngModel)]="purchaseOrder.supplier" optionLabel="supplierAgency" placeholder="Select Supplier"></p-dropdown>
-              </ng-template>
-              <ng-template pTemplate="output">
                 {{ purchaseOrder.supplier }}
-              </ng-template>
-            </p-cellEditor>
           </td>
           <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <p-dropdown [options]="products" [(ngModel)]="purchaseOrder.products" optionLabel="name" placeholder="Select Product"></p-dropdown>
-              </ng-template>
-              <ng-template pTemplate="output">
                 {{ purchaseOrder.products }}
-              </ng-template>
-            </p-cellEditor>
           </td>
           <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="purchaseOrder.store">
-              </ng-template>
-              <ng-template pTemplate="output">
                 {{ purchaseOrder.store }}
-              </ng-template>
-            </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
@@ -100,29 +127,22 @@
             </p-cellEditor>
           </td>
           <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input type="date" pInputText [(ngModel)]="purchaseOrder.orderDate">
-              </ng-template>
-              <ng-template pTemplate="output">
                 {{ purchaseOrder.orderDate | date: 'yyyy-MM-dd' }}
-              </ng-template>
-            </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input type="date" pInputText [(ngModel)]="purchaseOrder.deliveryDate">
+                <p-calendar formControlName="deliverDate" placeholder="Delivery Date" dateFormat="mm-dd-yy" inputId="delivery-date" appendTo="body"></p-calendar>
               </ng-template>
               <ng-template pTemplate="output">
-                {{ purchaseOrder.deliveryDate | date: 'yyyy-MM-dd' }}
+                {{ purchaseOrder.deliverDate | date: 'yyyy-MM-dd' }}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown [options]="transportMethods" [(ngModel)]="purchaseOrder.transportMethod" placeholder="Select Transport Method"></p-dropdown>
+                <p-dropdown formControlName="transportMethod" [options]="transportMethods" placeholder="Select Transport Method" optionLabel="name" appendTo="body"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
                 {{ purchaseOrder.transportMethod }}
@@ -132,7 +152,7 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown [options]="paymentMethods" [(ngModel)]="purchaseOrder.paymentMethod" placeholder="Select Payment Method"></p-dropdown>
+                <p-dropdown formControlName="paymentMethod" [options]="paymentMethods" placeholder="Select Payment Method" optionLabel="name"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
                 {{ purchaseOrder.paymentMethod }}
@@ -142,7 +162,7 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown [options]="statusOptions" [(ngModel)]="purchaseOrder.status" placeholder="Select Status"></p-dropdown>
+                <p-dropdown formControlName="status" [options]="statusOptions" placeholder="Select Status" optionLabel="name"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
                 {{ purchaseOrder.status }}
@@ -157,8 +177,11 @@
                 class="p-button-rounded p-button-text p-button-success mr-2"></button>
               <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(purchaseOrder)"
                 class="p-button-rounded p-button-text p-button-danger"></button>
-              <button pButton pRipple type="button" icon="pi pi-trash" (click)="deletePurchaseOrder(purchaseOrder.orderId)"
+                <button pButton pRipple type="button" icon="pi pi-trash" (click)="deletePurchaseOrder(purchaseOrder.id)"
                 class="p-button-rounded p-button-text p-button-danger"></button>
+              
+                <button pButton pRipple type="button" icon="pi pi-print" (click)="generatePDF(purchaseOrder)"
+                class="p-button-rounded p-button-text p-button-info"></button>        
             </div>
           </td>
         </tr>

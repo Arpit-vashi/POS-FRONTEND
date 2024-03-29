@@ -23,17 +23,30 @@ import { SupplierComponent } from './pages/supplier/supplier.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VoucherComponent } from './pages/voucher/voucher.component';
 import { CustomerComponent } from './pages/customer/customer.component';
-import {FileUploadModule} from 'primeng/fileupload';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
-import {MultiSelectModule} from 'primeng/multiselect';
+import { FileUploadModule} from 'primeng/fileupload';
+import { ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ConfirmationService} from 'primeng/api';
+import { MultiSelectModule} from 'primeng/multiselect';
 import { ProductComponent } from './pages/product/product.component';
 import { PurchaseOrderComponent } from './pages/purchase-order/purchase-order.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
+import { InvoiceComponent } from './pages/invoice/invoice.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { BadgeModule } from 'primeng/badge';
+import { ExcelConverterComponent } from './pages/excel-converter/excel-converter.component';
+import { CsvConverterComponent } from './pages/csv-converter/csv-converter.component';
+import { UserComponent } from './pages/user/user.component';
+import { PdfGeneratorComponent } from './pages/pdf-generator/pdf-generator.component';
+import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
 
 @NgModule({
     declarations: 
     [
+        PdfGeneratorComponent,
+        UserComponent,
+        CsvConverterComponent,
+        ExcelConverterComponent,
+        InvoiceComponent,
         InventoryComponent,
         ProductComponent,
         CustomerComponent,
@@ -42,12 +55,14 @@ import { InventoryComponent } from './pages/inventory/inventory.component';
         NotfoundComponent,
         SupplierComponent,
         VoucherComponent,
-        PurchaseOrderComponent
-        
+        PurchaseOrderComponent,
+        PrintBarcodeComponent
     ],
 
     imports: 
     [
+        BrowserModule,
+        BadgeModule,
         MultiSelectModule,
         ConfirmDialogModule,
         FileUploadModule,

@@ -1,26 +1,59 @@
-<!-- product.component.html -->
+<app-pdf-generator [tableData]="products" fileName="Product_List"></app-pdf-generator>
 <div class="card">
-  <h5>Add Product</h5>
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-  <input type="text" formControlName="name" placeholder="Name" pInputText class="mb-3 mr-5"> 
-  <input type="text" formControlName="description" placeholder="Description" class="mb-3 mr-5" pInputText> 
-  <p-inputNumber formControlName="price" inputId="locale-indian" placeholder="Price" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
-  <p-inputNumber inputId="locale-indian" formControlName="tax" placeholder="Tax" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
-  <p-inputNumber inputId="locale-indian" formControlName="total" placeholder="Total" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
-  <p-inputNumber placeholder="Stock" formControlName="stock" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" class="mb-3 mr-5"></p-inputNumber>
-  <p-inputNumber inputId="locale-indian" formControlName="purchasePrice" placeholder="Purchase Price" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
-  <p-multiSelect class="mb-3 mr-5" [options]="suppliers" formControlName="supplierIds" defaultLabel="Select Suppliers" optionLabel="supplierAgency" display="chip"></p-multiSelect>
-  <button pButton type="submit" class="mb-3 mr-5" label="Submit" icon="pi pi-check" class="p-button-raised p-button-success"></button>
-</form>
-<hr>
-<div>
-  <h5>Add Products with CSV</h5>
-  <p-fileUpload #uploader mode="basic" name="products[]" (onSelect)="onUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
+  <h5><strong>Add Product</strong></h5>
+  <hr>
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name" class="block">Product Name*</label>
+        <input type="text" formControlName="name" pInputText class="mb-3 mr-5">
+      </div> 
+      <div class="form-group">
+        <label for="description" class="block">Product Description*</label>
+        <input type="text" formControlName="description" class="mb-3 mr-5" pInputText>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price" class="block">Product Selling Price* (INR)</label>
+        <p-inputNumber formControlName="price" inputId="locale-indian" mode="decimal" inputId="locale-IN" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
+      </div>
+      <div class="form-group">
+        <label for="tax" class="block">Product Tax* (INR)</label>
+        <p-inputNumber inputId="locale-indian" formControlName="tax" inputId="locale-IN" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
+      </div>
+      <div class="form-group">
+        <label for="purchasePrice" class="block">Product Purchase Price* (INR)</label>
+        <p-inputNumber inputId="locale-indian" formControlName="purchasePrice" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="stockQuantity" class="block">Product Stock*</label>
+        <p-inputNumber formControlName="stockQuantity" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" class="mb-3 mr-5"></p-inputNumber>
+      </div>
+      <div class="form-group">
+        <label for="suppliers" class="block">Product Suppliers*</label>
+        <p-multiSelect class="mb-3 mr-5" [style]="{'min-width': '100%'}" [options]="suppliers" formControlName="supplierIds" defaultLabel="Select Suppliers" optionLabel="supplierAgency" display="chip"></p-multiSelect>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button pButton type="submit" [style]="{'min-width': '15.8%'}" class="p-button-raised p-button-success add" label="Add Product" icon="pi pi-plus"></button>
+      <button pButton pRipple (click)="resetForm()" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
+      <button pButton pRipple (click)="downloadProductsPdf()" [style]="{'min-width': '15.8%'}" icon="pi pi-print" type="button" label="Print Product List" class="p-button-raised p-button-info"></button>
+    </div>
+  </form>
+  <hr>
+  <div>
+    <h5><strong>Add Products with CSV</strong></h5>
+    <p-fileUpload #uploader mode="basic" name="products[]" (onSelect)="onUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Select File"></p-fileUpload>
+  </div>
 </div>
-</div>
+
 <hr>
 <div class="card">
-  <h5>Product List</h5>
+  <h5><strong>Product List</strong></h5>
   <p-table [value]="products" dataKey="productId" editMode="row" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header">
       <tr>
@@ -113,7 +146,7 @@
         </td>
         <td>{{ product.barcodeNumber }}</td>
         <td>
-          <img *ngIf="product.barcodeImage" [src]="getBarcodeImageSrc(product)" alt="Barcode Image" width="100" height="50">
+          <img *ngIf="product.barcodeImage" [src]="getBarcodeImageSrc(product)" alt="Barcode Image" width="140" height="30">
           <span *ngIf="!product.barcodeImage">No Image Available</span>
         </td>
         <td>{{ product.supplierIds }}</td>
@@ -134,6 +167,4 @@
     </ng-template>
   </p-table>
 </div>
-<p-toast></p-toast>
-
 <p-toast></p-toast>

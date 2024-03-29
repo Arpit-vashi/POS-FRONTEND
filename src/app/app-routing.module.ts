@@ -9,6 +9,11 @@ import { CustomerComponent } from './pages/customer/customer.component';
 import { ProductComponent } from './pages/product/product.component';
 import { PurchaseOrderComponent } from './pages/purchase-order/purchase-order.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
+import { InvoiceComponent } from './pages/invoice/invoice.component';
+import { ExcelConverterComponent } from './pages/excel-converter/excel-converter.component';
+import { CsvConverterComponent } from './pages/csv-converter/csv-converter.component';
+import { UserComponent } from './pages/user/user.component';
+import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
 
 @NgModule({
     imports: [
@@ -25,7 +30,11 @@ import { InventoryComponent } from './pages/inventory/inventory.component';
                         {path: 'product', component: ProductComponent},
                         {path: 'purchase-order', component: PurchaseOrderComponent},
                         {path: 'inventory', component: InventoryComponent},
-
+                        {path: 'invoice', component: InvoiceComponent},
+                        {path: 'excel', component: ExcelConverterComponent},
+                        {path: 'csv', component: CsvConverterComponent},
+                        {path: 'user', component: UserComponent},
+                        {path: 'print-Barcode', component: PrintBarcodeComponent},
 
                     ],   
                 },

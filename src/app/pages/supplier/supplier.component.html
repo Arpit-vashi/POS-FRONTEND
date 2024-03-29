@@ -1,30 +1,61 @@
+<app-pdf-generator [tableData]="suppliers" fileName="Supplier_List"></app-pdf-generator>
 <div class="card">
-  <h5>Add Supplier</h5>
-  <form [formGroup]="supplierForm" (ngSubmit)="saveSupplier()">
-      <input type="text" pInputText formControlName="supplierAgency" placeholder="Supplier Agency" class="mr-5 mb-3">
-      <input type="text" pInputText formControlName="contactPerson" placeholder="Contact Person" class="mr-5">
-      <input type="email" pInputText formControlName="supplierEmail" placeholder="Supplier Email" class="mr-5">
-      <input type="tel" pInputText formControlName="supplierPhone" placeholder="Supplier Phone" class="mr-5">
-      <input type="email" pInputText formControlName="contactPersonEmail" placeholder="Contact Person Email" class="mr-5">
-      <input type="tel" pInputText formControlName="contactPersonPhone" placeholder="Contact Person Phone" class="mr-5">
-      <input type="text" pInputText formControlName="address" placeholder="Address" class="mr-5">
-      <button pButton pRipple type="submit" label="Add Supplier" class="p-button-raised p-button-success mr-5"></button>
-  </form>
+  <h5><strong>Add Supplier</strong></h5>
   <hr>
-  <h5>Add Supplier with CSV</h5>
+  <form [formGroup]="supplierForm" (ngSubmit)="saveSupplier()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="supplierAgency" class="block">Supplier Agency Name*</label>
+      <input type="text" pInputText formControlName="supplierAgency" class="mr-5 mb-3">
+      </div>
+      <div class="form-group">
+        <label for="supplierPhone" class="block">Supplier Agency Phone*</label>
+      <input type="tel" pInputText formControlName="supplierPhone"  class="mr-5 mb-3">
+      </div>
+      <div class="form-group">
+        <label for="supplierEmail" class="block">Supplier Agency Email*</label>
+      <input type="email" pInputText formControlName="supplierEmail" class="mr-5 mb-3">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="contactPerson" class="block">Contact Person Name*</label>
+      <input type="text" pInputText formControlName="contactPerson" class="mr-5 mb-3">
+      </div>
+      <div class="form-group">
+        <label for="contactPersonPhone" class="block">Contact Person Phone*</label>
+      <input type="tel" pInputText formControlName="contactPersonPhone" class="mr-5 mb-3">
+      </div>
+      <div class="form-group">
+        <label for="contactPersonEmail" class="block">Contact Person Email*</label>
+      <input type="email" pInputText formControlName="contactPersonEmail" class="mr-5 mb-3">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="Address" class="block">Supplier Address*</label>
+      <input type="text" pInputText formControlName="address" class="mr-5">
+      </div>
+    </div>
+      <button pButton pRipple type="submit" icon="pi pi-plus" label="Add Supplier" [style]="{'min-width': '15.8%'}" class="p-button-raised p-button-success mr-5 mt-3"></button>
+      <button pButton pRipple (click)="resetForm()" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
+      <button pButton pRipple (click)="downloadPdf()" type="button" [style]="{'min-width': '15.8%'}" label="Print Supplier-List" icon="pi pi-print" class="p-button-raised p-button-info"></button>
+    </form>
+  <hr>
+  <h5><strong>Add Supplier with CSV</strong></h5>
 <p-fileUpload #uploader mode="basic" name="demo[]" (onSelect)="onUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
 </div>
 <hr>
 <div class="card">
-    <h5>Supplier List</h5>
+    <h5><strong>Supplier List</strong></h5>
     <p-table [value]="suppliers" dataKey="supplierID" editMode="row" [tableStyle]="{'min-width': '50rem'}">
       <ng-template pTemplate="header">
         <tr>
           <th style="width:20%">ID</th>
           <th style="width:20%">Supplier Agency</th>
-          <th style="width:20%">Contact Person</th>
-          <th style="width:20%">Supplier Email</th>
           <th style="width:20%">Supplier Phone</th>
+          <th style="width:20%">Supplier Email</th>
+          <th style="width:20%">Contact Person</th>
           <th style="width:20%">Contact Person Email</th>
           <th style="width:20%">Contact Person Phone</th>
           <th style="width:20%">Address</th>
@@ -47,10 +78,10 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="supplier.contactPerson">
+                <input pInputText type="text" [(ngModel)]="supplier.supplierPhone">
               </ng-template>
               <ng-template pTemplate="output">
-                {{ supplier.contactPerson }}
+                {{ supplier.supplierPhone }}
               </ng-template>
             </p-cellEditor>
           </td>
@@ -67,10 +98,10 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="tel" [(ngModel)]="supplier.supplierPhone">
+                <input pInputText type="tel" [(ngModel)]="supplier.contactPerson">
               </ng-template>
               <ng-template pTemplate="output">
-                {{ supplier.supplierPhone }}
+                {{ supplier.contactPerson }}
               </ng-template>
             </p-cellEditor>
           </td>

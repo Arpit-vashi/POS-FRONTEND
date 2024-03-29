@@ -8,7 +8,7 @@ import { ProductResponse } from "../model/product/product-response.model";
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:8080/api/products'; // Update with your backend URL
+  private baseUrl = 'http://localhost:8080/api/products';
 
   constructor(private http: HttpClient) { }
 
@@ -37,5 +37,13 @@ export class ProductService {
     formData.append('file', file, file.name);
 
     return this.http.post<string>(`${this.baseUrl}/upload`, formData);
+  }
+
+  generateBarcode(productId: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/product-barcode/${productId}`, { responseType: 'blob' });
+  }
+
+  getProductsBySupplierId(supplierId: number): Observable<ProductResponse[]> {
+    return this.http.get<ProductResponse[]>(`${this.baseUrl}/supplier/${supplierId}`);
   }
 }

@@ -1,0 +1,30 @@
+<div class="card">
+  <h5><strong>Excel to CSV converter</strong></h5>
+  <hr>
+  <p-fileUpload chooseLabel="Select Excel" class="mb-3 mr-5" chooseStyleClass="" chooseIcon="pi-file-excel" #fileUpload mode="basic" name="demo[]" (onSelect)="onFileChange($event)" accept=".xls,.xlsx" maxFileSize="1000000"></p-fileUpload>
+  <br>
+  <button pButton pRipple class="mb-3 mr-5 p-button-raised p-button-success" type="button" pButton label="Convert to CSV" icon="pi pi-file" (click)="convertToCSV()" [disabled]="!isFileSelected || !excelData"></button>
+  <button pButton pRipple class="mb-3 mr-5 p-button-raised p-button-info" type="button" pButton label="Download CSV" icon="pi pi-download" (click)="downloadCSV()" [disabled]="!csvData"></button>
+  <button pButton pRipple class="mb-3 mr-5 p-button-raised p-button-danger" type="button" pButton label="Reset" icon="pi pi-refresh" (click)="reset()"></button>
+</div>
+
+<div class="card" *ngIf="csvContentVisible">
+  <h5><strong>CSV Content</strong></h5>
+  <textarea [(ngModel)]="csvData" style="width: 1265px;" rows="10" cols="50" readonly></textarea>
+</div>
+
+<div class="card">
+  <h5><strong>Excel Content</strong></h5>
+  <p-table *ngIf="excelData.length > 0" [value]="excelData">
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let header of tableHeaders">{{ header }}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td *ngFor="let header of tableHeaders">{{ rowData[header] }}</td>
+      </tr>
+    </ng-template>
+  </p-table>  
+</div>
