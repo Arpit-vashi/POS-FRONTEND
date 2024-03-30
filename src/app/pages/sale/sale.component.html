@@ -65,7 +65,7 @@
       <button pButton pRipple type="button" label="Clear Cart" icon="pi pi-trash" class="p-button-raised p-button-danger mb-3 mr-5" (click)="clearCart();"></button>
     </div>
     <div class="form-group">
-      <button pButton pRipple type="button" label="Clear Form" icon="pi pi-times" class="p-button-raised p-button-secondary mb-3 mr-5"></button>
+      <button pButton pRipple type="button" label="Clear Form" icon="pi pi-times" class="p-button-raised p-button-secondary mb-3 mr-5" (click)="clearForm();"></button>
     </div>
   </div>
   <hr>
@@ -118,6 +118,9 @@
     </div>
     <div class="form-group mr-5">
       <strong>Overall Total: <strong style="color: red;">{{ overallTotal }}</strong></strong>
+    </div>
+    <div class="form-group mr-5">
+      <strong>Total Discount: <strong style="color: blue;">{{ totalDiscount }}</strong></strong>
     </div>
   </div>
   <hr>

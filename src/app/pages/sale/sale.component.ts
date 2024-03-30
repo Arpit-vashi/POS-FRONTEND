@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InvoiceService } from '../../service/invoice.service';
 import { InvoiceRequest } from "../../model/invoice/invoice-request.model";
@@ -12,6 +12,7 @@ import { VoucherResponse } from '../../model/voucher/voucher-response.model';
 import { ProductResponse } from '../../model/product/product-response.model';
 import { CustomerResponse } from '../../model/customer/customer-response.model';
 import { InvoiceResponse } from '../../model/invoice/invoice-response.model';
+import { VoucherRequest } from 'src/app/model/voucher/voucher-request.model';
 
 @Component({
   selector: 'app-sale',
@@ -33,7 +34,7 @@ throw new Error('Method not implemented.');
     { label: 'SemiPaid', value: 'SemiPaid' },
     { label: 'Unpaid', value: 'Unpaid' }
   ];
-  selectedStatus: string;
+  selectedStatus:  {lable,value};
   productId: number;
   barcodeNumber: string;
   invoices: InvoiceResponse[];
@@ -56,7 +57,10 @@ throw new Error('Method not implemented.');
   originalOverallTotal: number;
   voucherInputEmpty: boolean = true;
   voucherApplied: boolean = false;
-  selectedPaymentMethod: string;
+  selectedPaymentMethod: {lable,value};
+  v:VoucherRequest
+  vId:number
+  totalDiscount: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -89,12 +93,14 @@ throw new Error('Method not implemented.');
   }
 
   initializeForm() {
+    debugger
     this.saleForm = this.formBuilder.group({
       customerName: [this.selectedCustomer ? this.selectedCustomer.name : '', Validators.required],
       customerPhone: [this.selectedCustomer ? this.selectedCustomer.phone : '', Validators.required],
       paymentMethod: [this.selectedPaymentMethod, Validators.required],
       status: [this.selectedStatus, Validators.required],
-      dateTime: [this.datePipe.transform(new Date(), 'yyyy/MM/dd HH:mm:ss'), Validators.required],
+      // dateTime: [this.datePipe.transform(new Date(), 'yyyy/MM/dd HH:mm:ss'), Validators.required],
+      dateTime: [this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss'), Validators.required],
       products: [this.productsInCart.map(product => product.name)],
       barcodeNumbers: [this.productsInCart.map(product => product.barcodeNumber)],
       voucher: [''],
@@ -156,8 +162,8 @@ throw new Error('Method not implemented.');
       customers => {
         this.customers = customers;
         if (this.customers && this.customers.length > 0) {
-          this.selectedCustomer = this.customers[0]; // Select the first customer by default
-          this.initializeForm(); // Reinitialize the form after selecting the customer
+          this.selectedCustomer = this.customers[0];
+          this.initializeForm();
         }
       },
       error => {
@@ -229,6 +235,7 @@ throw new Error('Method not implemented.');
 
 
   addToCart(product?: ProductResponse) {
+    debugger
     const existingProductIndex = this.productsInCart.findIndex(p => p.productId === product.productId);
     if (existingProductIndex !== -1) {
       this.productsInCart[existingProductIndex].quantity++;
@@ -236,13 +243,18 @@ throw new Error('Method not implemented.');
     } else {
       product.quantity = 1;
       this.productsInCart.push(product);
+      this.originalTotalPrice=+product.total
     }
     this.saveCartToLocalStorage();
   }
 
   clearCart() {
+    debugger
     this.productsInCart = [];
     localStorage.removeItem('cart');
+    this.totalPrice =0
+    this.totalTax = 0
+    this.overallTotal = 0
   }
 
   calculateTotal(cartItem: ProductResponse) {
@@ -284,6 +296,7 @@ throw new Error('Method not implemented.');
     this.overallTotal = this.totalPrice + this.totalTax;
   }
 
+
   getAllVouchers() {
     this.voucherService.getAllVouchers().subscribe(
       vouchers => {
@@ -298,12 +311,18 @@ throw new Error('Method not implemented.');
   }
 
   checkVoucher() {
+    debugger
     if (this.voucherValue) {
       const matchedVoucher = this.vouchers.find(voucher => voucher.voucherCode === this.voucherValue);
       if (matchedVoucher) {
+        this.v=matchedVoucher
+        this.v.validForNumberOfCustomers=matchedVoucher.validForNumberOfCustomers-1;
+        this.vId=matchedVoucher.voucherID
         console.log('Voucher successfully matched:', matchedVoucher);
         this.messageService.add({ severity: 'success', summary: 'Voucher Applied', detail: 'Voucher successfully applied.' });
         const discountPercentage = matchedVoucher.discountAmount / 100;
+        this.totalDiscount = this.totalPrice * discountPercentage; // Calculate total discount
+        this.overallTotal = this.totalPrice + this.totalTax - this.totalDiscount;
         this.productsInCart.forEach(product => {
           const discountedPrice = product.price * (1 - discountPercentage);
           product.price = parseFloat(discountedPrice.toFixed(2));
@@ -328,53 +347,75 @@ throw new Error('Method not implemented.');
   }
 
   rewindVoucherChanges() {
-    this.productsInCart.forEach(product => {
-      product.price = this.originalTotalPrice;
-    });
-    this.totalPrice = this.originalTotalPrice;
-    this.totalTax = this.originalTotalTax;
-    this.overallTotal = this.originalOverallTotal;
-    this.originalTotalPrice = 0;
-    this.originalTotalTax = 0;
-    this.originalOverallTotal = 0;
+    this.products.forEach(p=>{
+      this.productsInCart.forEach(product => {
+        if(p.productId==product.productId){
+          product.price=p.price
+        }
+
+      });
+    })
+    this.recalculateCartTotals() 
   }
 
   removeVoucher() {
+    if(this.voucherValue){
     this.voucherValue = null;
+    this.vId=-1
     this.rewindVoucherChanges();
     this.voucherApplied = false;
+    this.v.validForNumberOfCustomers=this.v.validForNumberOfCustomers+1;
+    this.totalDiscount = 0; // Reset total discount
+    this.overallTotal = this.totalPrice + this.totalTax;
+    }
+    
+  }
+
+  clearform(){
+    this.customers=[]
   }
 
   submitForm() {
+    debugger
     if (this.saleForm) {
-      // console.log('Form Validity:', this.saleForm.valid);
-      // console.log('Form Data:', this.saleForm.value);
-      // console.log('Form Data:', this.saleForm.value);
-
-      const selectedPaymentMethod = this.saleForm.value.paymentMethod;
-      console.log(selectedPaymentMethod)
-      const selectedStatus: string = this.saleForm.value.status;
+      let selectedPaymentMethod = '';
+      let selectedStatus = '';
+      if(this.selectedPaymentMethod){
+         selectedPaymentMethod = this.selectedPaymentMethod.value;
+      }
+      if(this.selectedStatus){
+        selectedStatus =this.selectedStatus.value ;
+      }
 
       const invoiceRequest: InvoiceRequest = {
         dateTime: this.saleForm.value.dateTime,
         products: this.saleForm.value.products,
-        paymentMethod: this.selectedPaymentMethod,
+        paymentMethod: selectedPaymentMethod,
         customerName: this.saleForm.value.customerName,
         customerPhone: this.saleForm.value.customerPhone,
         totalMRP: this.saleForm.value.totalMRP,
         totalTax: this.saleForm.value.totalTax,
         totalPrice: this.saleForm.value.totalPrice,
-        status: selectedStatus ? selectedStatus.toString() : '',
+        status: selectedStatus,
         barcodeNumbers: this.saleForm.value.barcodeNumbers,
-        voucher: this.saleForm.value.voucher,
+        voucher: this.voucherValue,
         totalDiscount: this.saleForm.value.totalDiscount
       };
 
-      console.log(selectedStatus)
+      console.log(invoiceRequest)
 
       this.invoiceService.createInvoice(invoiceRequest).subscribe(
         response => {
+         if(this.voucherValue){
+          this.voucherService.updateVoucher(this.vId,this.v).subscribe(
+            res=>{
+              console.log(res)
+            }
+          )
+         }
           console.log('Invoice created successfully:', response);
+          this.clearForm();
+          
         },
         error => {
           console.error('Error creating invoice:', error);
@@ -384,4 +425,15 @@ throw new Error('Method not implemented.');
       console.error('Form is invalid. Please fill all required fields.');
     }
   }
+
+  clearForm() {
+    this.selectedCustomer = null;
+    this.selectedProducts = [];
+    this.selectedPaymentMethod = null;
+    this.selectedStatus = null;
+    this.voucherValue = null;
+    this.clearCart();
+    this.saleForm.reset();
+    this.initializeForm(); // Reinitialize the form to update default values
+  }  
 }
