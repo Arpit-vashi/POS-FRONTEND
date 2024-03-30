@@ -38,10 +38,13 @@ import { CsvConverterComponent } from './pages/csv-converter/csv-converter.compo
 import { UserComponent } from './pages/user/user.component';
 import { PdfGeneratorComponent } from './pages/pdf-generator/pdf-generator.component';
 import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
+import { SaleComponent } from './pages/sale/sale.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
     declarations: 
     [
+        SaleComponent,
         PdfGeneratorComponent,
         UserComponent,
         CsvConverterComponent,
@@ -87,7 +90,8 @@ import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.compo
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         MessageService,
-        ConfirmationService
+        ConfirmationService,
+        DatePipe
     ],
     bootstrap: [AppComponent],
 })

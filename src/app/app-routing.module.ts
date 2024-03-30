@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { RouterModule } from '@angular/router';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SupplierComponent } from './pages/supplier/supplier.component';
 import { VoucherComponent } from './pages/voucher/voucher.component';
 import { CustomerComponent } from './pages/customer/customer.component';
@@ -14,6 +13,7 @@ import { ExcelConverterComponent } from './pages/excel-converter/excel-converter
 import { CsvConverterComponent } from './pages/csv-converter/csv-converter.component';
 import { UserComponent } from './pages/user/user.component';
 import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
+import { SaleComponent } from './pages/sale/sale.component';
 
 @NgModule({
     imports: [
@@ -23,7 +23,7 @@ import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.compo
                     path: '',
                     component: AppLayoutComponent,
                     children: [
-                        { path: '', component:  DashboardComponent},
+                        { path: '', component:  SaleComponent},
                         {path: 'supplier', component: SupplierComponent},
                         {path: 'voucher', component: VoucherComponent},
                         {path: 'customer', component: CustomerComponent},

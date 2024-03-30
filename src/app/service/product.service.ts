@@ -46,4 +46,8 @@ export class ProductService {
   getProductsBySupplierId(supplierId: number): Observable<ProductResponse[]> {
     return this.http.get<ProductResponse[]>(`${this.baseUrl}/supplier/${supplierId}`);
   }
+
+  getProductsByBarcodeNumber(barcodeNumber: string): Observable<ProductResponse[]> {
+    return this.http.get<ProductResponse[]>(`${this.baseUrl}/barcode/${barcodeNumber}`);
+  }
 }

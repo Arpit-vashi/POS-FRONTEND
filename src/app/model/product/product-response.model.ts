@@ -1,4 +1,5 @@
 export interface ProductResponse {
+    quantity: number;
     productId: number;
     name: string;
     description: string;

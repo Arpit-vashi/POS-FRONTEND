@@ -5,5 +5,6 @@ export interface VoucherResponse {
     discountAmount: number;
     validForNumberOfCustomers: number;
     validForNumberOfDays: number;
-  }
+    isValid: boolean;
+}
   

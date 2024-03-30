@@ -1,0 +1,154 @@
+<div class="card">
+  <div class="hed">
+    <p><strong style="display: flex; justify-content: center; align-items: center;"><u>Point Of Sales - PGS</u></strong></p>
+  </div>
+</div>
+<div class="card">
+  <div id="Top-Bar">
+    <div class="invoice-id">
+      <strong>Invoice No:</strong>
+      <strong style="color: red;">{{ largestInvoiceId + 1 }}</strong>
+    </div>
+    <div class="date-time">
+      <strong>Date:<span style="color: red;">{{ currentDate }}</span></strong>
+      <strong>Time:<span style="color: red;">{{ currentTime }}</span></strong>
+    </div>
+  </div>
+  <hr>
+  <div class="form-row">
+    <div class="form-group mr-5">
+      <label for="deliverDate">Select Customer*</label>
+      <p-dropdown [options]="customers" [(ngModel)]="selectedCustomer" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Customers">
+        <ng-template let-customer pTemplate="selectedItem">
+          <div class="customer-item customer-item-value" *ngIf="selectedCustomer">
+            <div>{{ selectedCustomer.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-customer pTemplate="item">
+          <div class="customer-item">
+            <div>{{ customer.name }},{{ customer.phone }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="form-group">
+      <label for="deliverDate">Add Customer</label>
+      <button pButton pRipple type="button" label="Customer" icon="pi pi-plus" class="p-button-raised" (click)="redirectToCustomerPage()"></button>
+    </div>
+  </div>
+  <hr>
+  <div class="form-row">
+    <div class="form-group mr-5">
+      <label for="productId">Select Product*</label>
+      <p-multiSelect [options]="products" [(ngModel)]="selectedProducts" defaultLabel="Select Products" optionLabel="name" selectedItemsLabel="{0} items selected"></p-multiSelect>
+    </div>
+    <div class="form-group">
+      <label for="productId">Search By Barcode Number</label>
+      <div class="form-row">
+        <p-inputNumber [(ngModel)]="barcodeNumber" mode="decimal" inputId="withoutgrouping" [useGrouping]="false"></p-inputNumber>
+        <button pButton pRipple type="button" icon="pi pi-plus" class="ml-1 p-button-rounded p-button-warning" [disabled]="!barcodeNumber" (click)="searchByBarcode();"></button>
+      </div>
+    </div>
+    <div class="form-group ml-5">
+      <label for="productId">Search By Product ID</label>
+      <div class="form-row">
+        <p-inputNumber [(ngModel)]="productId" mode="decimal" inputId="productId" [useGrouping]="false"></p-inputNumber>
+        <button pButton pRipple type="button" icon="pi pi-plus" class="ml-1 p-button-rounded p-button-warning" [disabled]="!productId" (click)="searchByProductId();"></button>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <button pButton pRipple type="button" label="Add to Cart" icon="pi pi-cart-plus" class="p-button-raised p-button-info mb-3 mr-5" (click)="addToCartWithReset();"></button>
+    </div>
+    <div class="form-group">
+      <button pButton pRipple type="button" label="Clear Cart" icon="pi pi-trash" class="p-button-raised p-button-danger mb-3 mr-5" (click)="clearCart();"></button>
+    </div>
+    <div class="form-group">
+      <button pButton pRipple type="button" label="Clear Form" icon="pi pi-times" class="p-button-raised p-button-secondary mb-3 mr-5"></button>
+    </div>
+  </div>
+  <hr>
+  <div class="form-row">
+    <div class="form-group">
+      <div class="card">
+        <h5>Cart Items</h5>
+        <p-table [value]="productsInCart" dataKey="productId" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width:10%">Item No.</th>
+              <th style="width:15%">Product ID</th>
+              <th style="width:15%">Name</th>
+              <th style="width:15%">MRP</th>
+              <th style="width:10%">Tax</th>
+              <th style="width:15%">Total</th>
+              <th style="width:15%">Barcode Number</th>
+              <th style="width:5%">Quantity</th>
+              <th style="width:5%"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-cartItem let-i="rowIndex">
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ cartItem.productId }}</td>
+              <td>{{ cartItem.name }}</td>
+              <td>{{ cartItem.price }}</td>
+              <td>{{ cartItem.tax }}</td>
+              <td>{{ cartItem.total }}</td>
+              <td>{{ cartItem.barcodeNumber }}</td>
+              <td>
+                <p-inputNumber [(ngModel)]="cartItem.quantity" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (ngModelChange)="calculateTotal(cartItem)"></p-inputNumber>
+              </td>
+              <td>
+                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="deleteItemFromCart(i);"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="form-row">
+    <div class="form-group mr-5">
+      <strong>Total Price: <strong style="color: orange;">{{ totalPrice }}</strong></strong>
+    </div>
+    <div class="form-group mr-5">
+      <strong>Total Tax: <strong style="color: green;">{{ totalTax }}</strong></strong>
+    </div>
+    <div class="form-group mr-5">
+      <strong>Overall Total: <strong style="color: red;">{{ overallTotal }}</strong></strong>
+    </div>
+  </div>
+  <hr>
+  <div class="form-row">
+    <div class="form-group mr-5 mb-3">
+      <input type="text" pInputText [(ngModel)]="voucherValue" (input)="onVoucherInputChange()">
+    </div>
+    <div class="form-group mr-5 mb-3">
+      <button pButton pRipple type="button" label="Check Voucher" class="p-button-raised p-button-success" [disabled]="voucherInputEmpty" (click)="checkVoucher()"></button>
+    </div>
+    <div class="form-group mr-5 mb-3">
+      <button pButton pRipple type="button" label="Remove Voucher" class="p-button-raised p-button-warning" (click)="removeVoucher()"></button>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group mr-5">
+      <label for="Payment">Payment Method</label>
+      <p-dropdown [options]="paymentOptions" [(ngModel)]="selectedPaymentMethod" placeholder="Payment Method" optionLabel="label" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="form-group mr-5">
+      <label for="Status">Status</label>
+      <p-dropdown [options]="statusOptions" [(ngModel)]="selectedStatus" placeholder="Status" optionLabel="label" [showClear]="true"></p-dropdown>
+    </div>
+    
+    </div>
+    <div class="form-row">
+      <div class="form-group mr-5">
+        <button pButton pRipple type="button" label="Print Invoice" class="p-button-raised" (click)="printInvoice()"></button>
+      </div>
+      <div class="form-group mr-5">
+        <button pButton pRipple type="button" label="Submit Invoice" class="p-button-raised p-button-success" (click)="submitForm()"></button>
+    </div>
+</div>
+<p-toast></p-toast>
