@@ -50,6 +50,7 @@ throw new Error('Method not implemented.');
   totalPrice: number = 0;
   totalTax: number = 0;
   overallTotal: number = 0;
+  totalDiscount: number = 0;
   vouchers: VoucherResponse[] = [];
   voucherValue: string;
   originalTotalPrice: number;
@@ -60,7 +61,6 @@ throw new Error('Method not implemented.');
   selectedPaymentMethod: {lable,value};
   v:VoucherRequest
   vId:number
-  totalDiscount: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -315,14 +315,16 @@ throw new Error('Method not implemented.');
     if (this.voucherValue) {
       const matchedVoucher = this.vouchers.find(voucher => voucher.voucherCode === this.voucherValue);
       if (matchedVoucher) {
-        this.v=matchedVoucher
-        this.v.validForNumberOfCustomers=matchedVoucher.validForNumberOfCustomers-1;
-        this.vId=matchedVoucher.voucherID
+        this.v = matchedVoucher;
+        this.v.validForNumberOfCustomers = matchedVoucher.validForNumberOfCustomers - 1;
+        this.vId = matchedVoucher.voucherID;
         console.log('Voucher successfully matched:', matchedVoucher);
         this.messageService.add({ severity: 'success', summary: 'Voucher Applied', detail: 'Voucher successfully applied.' });
         const discountPercentage = matchedVoucher.discountAmount / 100;
-        this.totalDiscount = this.totalPrice * discountPercentage; // Calculate total discount
-        this.overallTotal = this.totalPrice + this.totalTax - this.totalDiscount;
+        const discountAmount = this.totalPrice * discountPercentage;
+        this.totalDiscount = discountAmount
+        this.totalDiscount = parseFloat(this.totalDiscount.toFixed(2));
+        console.log('Discount amount:', discountAmount);
         this.productsInCart.forEach(product => {
           const discountedPrice = product.price * (1 - discountPercentage);
           product.price = parseFloat(discountedPrice.toFixed(2));
@@ -340,13 +342,14 @@ throw new Error('Method not implemented.');
       this.messageService.add({ severity: 'warn', summary: 'No Voucher Code', detail: 'Please enter a voucher code.' });
       this.voucherInputEmpty = true;
     }
-  }
+  }  
 
   onVoucherInputChange() {
     this.voucherInputEmpty = !this.voucherValue;
   }
 
   rewindVoucherChanges() {
+    this.totalDiscount = 0
     this.products.forEach(p=>{
       this.productsInCart.forEach(product => {
         if(p.productId==product.productId){
@@ -365,8 +368,6 @@ throw new Error('Method not implemented.');
     this.rewindVoucherChanges();
     this.voucherApplied = false;
     this.v.validForNumberOfCustomers=this.v.validForNumberOfCustomers+1;
-    this.totalDiscount = 0; // Reset total discount
-    this.overallTotal = this.totalPrice + this.totalTax;
     }
     
   }
@@ -414,7 +415,7 @@ throw new Error('Method not implemented.');
           )
          }
           console.log('Invoice created successfully:', response);
-          this.clearForm();
+          this.clearForm()
           
         },
         error => {
