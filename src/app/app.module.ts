@@ -40,6 +40,7 @@ import { PdfGeneratorComponent } from './pages/pdf-generator/pdf-generator.compo
 import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
 import { SaleComponent } from './pages/sale/sale.component';
 import { DatePipe } from '@angular/common';
+import { InvoicePdfComponent } from './pages/invoice-pdf/invoice-pdf.component';
 
 @NgModule({
     declarations: 
@@ -59,7 +60,8 @@ import { DatePipe } from '@angular/common';
         SupplierComponent,
         VoucherComponent,
         PurchaseOrderComponent,
-        PrintBarcodeComponent
+        PrintBarcodeComponent,
+        InvoicePdfComponent
     ],
 
     imports: 

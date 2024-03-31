@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InvoiceService } from '../../service/invoice.service';
 import { InvoiceRequest } from "../../model/invoice/invoice-request.model";
@@ -13,6 +13,7 @@ import { ProductResponse } from '../../model/product/product-response.model';
 import { CustomerResponse } from '../../model/customer/customer-response.model';
 import { InvoiceResponse } from '../../model/invoice/invoice-response.model';
 import { VoucherRequest } from 'src/app/model/voucher/voucher-request.model';
+import { InvoicePdfComponent } from '../invoice-pdf/invoice-pdf.component';
 
 @Component({
   selector: 'app-sale',
@@ -20,9 +21,16 @@ import { VoucherRequest } from 'src/app/model/voucher/voucher-request.model';
   styleUrls: ['./sale.component.scss']
 })
 export class SaleComponent implements OnInit, OnDestroy {
-printInvoice() {
-throw new Error('Method not implemented.');
-}
+  @ViewChild(InvoicePdfComponent) invoicePdfComponent: InvoicePdfComponent;
+
+  ngAfterViewInit() {
+    if (this.invoicePdfComponent) {
+      console.log('Invoice PDF Component is available.');
+      // You can set default data or perform other initializations here if needed
+    } else {
+      console.error('Invoice PDF Component is not available.');
+    }
+  }
   saleForm: FormGroup;
   paymentOptions = [
     { label: 'Cash', value: 'Cash' },
@@ -93,7 +101,6 @@ throw new Error('Method not implemented.');
   }
 
   initializeForm() {
-    debugger
     this.saleForm = this.formBuilder.group({
       customerName: [this.selectedCustomer ? this.selectedCustomer.name : '', Validators.required],
       customerPhone: [this.selectedCustomer ? this.selectedCustomer.phone : '', Validators.required],
@@ -235,7 +242,6 @@ throw new Error('Method not implemented.');
 
 
   addToCart(product?: ProductResponse) {
-    debugger
     const existingProductIndex = this.productsInCart.findIndex(p => p.productId === product.productId);
     if (existingProductIndex !== -1) {
       this.productsInCart[existingProductIndex].quantity++;
@@ -249,7 +255,6 @@ throw new Error('Method not implemented.');
   }
 
   clearCart() {
-    debugger
     this.productsInCart = [];
     localStorage.removeItem('cart');
     this.totalPrice =0
@@ -311,7 +316,6 @@ throw new Error('Method not implemented.');
   }
 
   checkVoucher() {
-    debugger
     if (this.voucherValue) {
       const matchedVoucher = this.vouchers.find(voucher => voucher.voucherCode === this.voucherValue);
       if (matchedVoucher) {
@@ -377,46 +381,19 @@ throw new Error('Method not implemented.');
   }
 
   submitForm() {
-    debugger
     if (this.saleForm) {
-      let selectedPaymentMethod = '';
-      let selectedStatus = '';
-      if(this.selectedPaymentMethod){
-         selectedPaymentMethod = this.selectedPaymentMethod.value;
-      }
-      if(this.selectedStatus){
-        selectedStatus =this.selectedStatus.value ;
-      }
-
-      const invoiceRequest: InvoiceRequest = {
-        dateTime: this.saleForm.value.dateTime,
-        products: this.saleForm.value.products,
-        paymentMethod: selectedPaymentMethod,
-        customerName: this.saleForm.value.customerName,
-        customerPhone: this.saleForm.value.customerPhone,
-        totalMRP: this.saleForm.value.totalMRP,
-        totalTax: this.saleForm.value.totalTax,
-        totalPrice: this.saleForm.value.totalPrice,
-        status: selectedStatus,
-        barcodeNumbers: this.saleForm.value.barcodeNumbers,
-        voucher: this.voucherValue,
-        totalDiscount: this.saleForm.value.totalDiscount
-      };
-
-      console.log(invoiceRequest)
-
+      const invoiceRequest = this.prepareInvoiceData();
       this.invoiceService.createInvoice(invoiceRequest).subscribe(
         response => {
-         if(this.voucherValue){
-          this.voucherService.updateVoucher(this.vId,this.v).subscribe(
-            res=>{
-              console.log(res)
-            }
-          )
-         }
+          if (this.voucherValue) {
+            this.voucherService.updateVoucher(this.vId, this.v).subscribe(
+              res => {
+                console.log(res);
+              }
+            );
+          }
           console.log('Invoice created successfully:', response);
-          this.clearForm()
-          
+          this.clearForm();
         },
         error => {
           console.error('Error creating invoice:', error);
@@ -435,6 +412,45 @@ throw new Error('Method not implemented.');
     this.voucherValue = null;
     this.clearCart();
     this.saleForm.reset();
-    this.initializeForm(); // Reinitialize the form to update default values
+    this.initializeForm();
   }  
-}
+
+  printInvoice() {
+    if (this.saleForm) {
+      const invoiceData = this.prepareInvoiceData();
+      console.log(invoiceData)
+      this.invoicePdfComponent.invoiceData = invoiceData;
+      console.log(invoiceData)
+      this.invoicePdfComponent.generatePdf();
+    }
+  }
+    prepareInvoiceData(): InvoiceRequest {
+      let selectedPaymentMethod = '';
+      let selectedStatus = '';
+      if (this.selectedPaymentMethod) {
+        selectedPaymentMethod = this.selectedPaymentMethod.value;
+      }
+      if (this.selectedStatus) {
+        selectedStatus = this.selectedStatus.value;
+      }
+    
+      const invoiceRequest: InvoiceRequest = {
+        dateTime: this.saleForm.value.dateTime,
+        products: this.saleForm.value.products,
+        paymentMethod: selectedPaymentMethod,
+        customerName: this.saleForm.value.customerName,
+        customerPhone: this.saleForm.value.customerPhone,
+        totalMRP: this.saleForm.value.totalMRP,
+        totalTax: this.saleForm.value.totalTax,
+        totalPrice: this.saleForm.value.totalPrice,
+        status: selectedStatus,
+        barcodeNumbers: this.saleForm.value.barcodeNumbers,
+        voucher: this.saleForm.value.voucher,
+        totalDiscount: this.saleForm.value.totalDiscount
+      };
+    
+      return invoiceRequest;
+    }
+    
+  }
+  
