@@ -4,29 +4,28 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
-// import { ProductsComponent, ProductComponent } from './pages/products/products.component';
-import { InputTextModule} from 'primeng/inputtext';
+import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputNumberModule} from 'primeng/inputnumber';
-import { DropdownModule} from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
-import { TableModule} from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { BarcodeComponent } from './pages/barcode/barcode.component';
 import { MessageService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
-import { ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
-import { DialogModule} from 'primeng/dialog';
-import { CalendarModule} from 'primeng/calendar';
-import { InputTextareaModule} from 'primeng/inputtextarea';
+import { DialogModule } from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SupplierComponent } from './pages/supplier/supplier.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VoucherComponent } from './pages/voucher/voucher.component';
 import { CustomerComponent } from './pages/customer/customer.component';
-import { FileUploadModule} from 'primeng/fileupload';
-import { ConfirmDialogModule} from 'primeng/confirmdialog';
-import { ConfirmationService} from 'primeng/api';
-import { MultiSelectModule} from 'primeng/multiselect';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ProductComponent } from './pages/product/product.component';
 import { PurchaseOrderComponent } from './pages/purchase-order/purchase-order.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
@@ -40,11 +39,10 @@ import { PdfGeneratorComponent } from './pages/pdf-generator/pdf-generator.compo
 import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
 import { SaleComponent } from './pages/sale/sale.component';
 import { DatePipe } from '@angular/common';
-import { InvoicePdfComponent } from './pages/invoice-pdf/invoice-pdf.component';
+import { PrintInvoiceComponent } from './pages/print-invoice/print-invoice.component';
 
 @NgModule({
-    declarations: 
-    [
+    declarations: [
         SaleComponent,
         PdfGeneratorComponent,
         UserComponent,
@@ -61,11 +59,10 @@ import { InvoicePdfComponent } from './pages/invoice-pdf/invoice-pdf.component';
         VoucherComponent,
         PurchaseOrderComponent,
         PrintBarcodeComponent,
-        InvoicePdfComponent
+        PrintInvoiceComponent
     ],
 
-    imports: 
-    [
+    imports: [
         BrowserModule,
         BadgeModule,
         MultiSelectModule,
@@ -86,14 +83,14 @@ import { InvoicePdfComponent } from './pages/invoice-pdf/invoice-pdf.component';
         FormsModule,
         ReactiveFormsModule,
         InputTextModule,
-        AppRoutingModule, 
-        AppLayoutModule
+        AppRoutingModule,
+        AppLayoutModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         MessageService,
         ConfirmationService,
-        DatePipe
+        DatePipe,
     ],
     bootstrap: [AppComponent],
 })
