@@ -100,6 +100,10 @@ export class SaleComponent implements OnInit, OnDestroy {
                 this.selectedCustomer ? this.selectedCustomer.phone : '',
                 Validators.required,
             ],
+            customerEmail: [
+                this.selectedCustomer ? this.selectedCustomer.email : '',
+                [Validators.required, Validators.email],
+            ],            
             paymentMethod: [this.selectedPaymentMethod, Validators.required],
             status: [this.selectedStatus, Validators.required],
             // dateTime: [this.datePipe.transform(new Date(), 'yyyy/MM/dd HH:mm:ss'), Validators.required],
@@ -490,6 +494,7 @@ export class SaleComponent implements OnInit, OnDestroy {
             paymentMethod: selectedPaymentMethod,
             customerName: this.saleForm.value.customerName,
             customerPhone: this.saleForm.value.customerPhone,
+            customerEmail: this.saleForm.value.customerEmail, // Added customer email
             totalMRP: this.totalPrice,
             totalTax: this.totalTax,
             totalPrice: this.overallTotal,
@@ -502,6 +507,7 @@ export class SaleComponent implements OnInit, OnDestroy {
         };
         return invoiceRequest;
     }
+    
     prepareCartData() {
         return this.productsInCart.map((product, index) => ({
             itemNo: index + 1,
