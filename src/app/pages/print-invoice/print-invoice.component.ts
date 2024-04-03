@@ -64,9 +64,9 @@ export class PrintInvoiceComponent implements OnChanges {
       `${item.itemNo || ''}`,
       item.name || 'N/A',
       item.quantity || 0,
-      `₹${item.price ? item.price.toFixed(2) : '0.00'}`,
-      `₹${item.tax ? item.tax.toFixed(2) : '0.00'}`,
-      `₹${item.total ? item.total.toFixed(2) : '0.00'}`,
+      `${item.price ? item.price.toFixed(2) : '0.00'}`,
+      `${item.tax ? item.tax.toFixed(2) : '0.00'}`,
+      `${item.total ? item.total.toFixed(2) : '0.00'}`,
     ]);
 
     // Add the table using autoTable
@@ -91,20 +91,20 @@ export class PrintInvoiceComponent implements OnChanges {
     // Add Total MRP, Tax, and Grand Total
     doc.setFontSize(10);
     doc.text('Total MRP:', 150, startY, { align: 'right' });
-    doc.text(`₹${this.invoiceData.totalMRP ? this.invoiceData.totalMRP.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
+    doc.text(`${this.invoiceData.totalMRP ? this.invoiceData.totalMRP.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
     startY += 5;
 
     doc.text('Tax:', 150, startY, { align: 'right' });
-    doc.text(`₹${this.invoiceData.totalTax ? this.invoiceData.totalTax.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
+    doc.text(`${this.invoiceData.totalTax ? this.invoiceData.totalTax.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
     startY += 5;
 
     doc.text('Total Discount:', 150, startY, { align: 'right' });
-    doc.text(`₹${this.invoiceData.totalDiscount ? this.invoiceData.totalDiscount.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
+    doc.text(`${this.invoiceData.totalDiscount ? this.invoiceData.totalDiscount.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
     startY += 5;
 
     doc.setFontSize(11);
     doc.text('Grand Total:', 150, startY, { align: 'right' });
-    doc.text(`₹${this.invoiceData.totalPrice ? this.invoiceData.totalPrice.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
+    doc.text(`${this.invoiceData.totalPrice ? this.invoiceData.totalPrice.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
     startY += 7;
 
     // Add a footer note

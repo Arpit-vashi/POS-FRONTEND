@@ -8,7 +8,7 @@ import { InvoiceResponse } from '../model/invoice/invoice-response.model';
   providedIn: 'root'
 })
 export class InvoiceService {
-  private baseUrl = 'http://localhost:8080/api/invoices'; // Update the base URL according to your backend API endpoint
+  private baseUrl = 'http://localhost:8080/api/invoices';
 
   constructor(private http: HttpClient) { }
 
