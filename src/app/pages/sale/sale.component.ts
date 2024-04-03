@@ -221,6 +221,7 @@ export class SaleComponent implements OnInit, OnDestroy {
                     if (product) {
                         this.addToCart(product);
                         this.recalculateCartTotals();
+                        this.productId = null;
                     } else {
                         this.showProductNotFoundToast();
                     }
@@ -416,6 +417,8 @@ export class SaleComponent implements OnInit, OnDestroy {
 
     submitForm() {
         if (this.saleForm) {
+            const cartData = this.prepareCartData();
+            debugger
             const selectedPaymentMethod = this.selectedPaymentMethod
                 ? this.selectedPaymentMethod.value
                 : '';
@@ -438,6 +441,7 @@ export class SaleComponent implements OnInit, OnDestroy {
                 ),
                 voucher: this.voucherValue,
                 totalDiscount: this.totalDiscount,
+                cartData: cartData
             };
 
             this.invoiceService.createInvoice(invoiceRequest).subscribe(
@@ -488,6 +492,7 @@ export class SaleComponent implements OnInit, OnDestroy {
             barcodeNumber: product.barcodeNumber,
             quantity: product.quantity,
         }));
+
         const invoiceRequest: InvoiceRequest = {
             dateTime: this.saleForm.value.dateTime,
             products: this.productsInCart.map((product) => product.name),
@@ -504,6 +509,8 @@ export class SaleComponent implements OnInit, OnDestroy {
             ),
             voucher: this.voucherValue,
             totalDiscount: this.totalDiscount,
+
+            cartData: []
         };
         return invoiceRequest;
     }

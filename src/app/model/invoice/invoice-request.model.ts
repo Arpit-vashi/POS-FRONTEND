@@ -11,5 +11,6 @@ export interface InvoiceRequest {
     totalDiscount: number;
     totalPrice: number;
     status: string;
+    cartData : any;
     customerEmail?: string;
   }

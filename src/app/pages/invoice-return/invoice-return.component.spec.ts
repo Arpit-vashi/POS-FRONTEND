@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BarcodeComponent } from './barcode.component';
+import { InvoiceReturnComponent } from './invoice-return.component';
 
-describe('BarcodeComponent', () => {
-  let component: BarcodeComponent;
-  let fixture: ComponentFixture<BarcodeComponent>;
+describe('InvoiceReturnComponent', () => {
+  let component: InvoiceReturnComponent;
+  let fixture: ComponentFixture<InvoiceReturnComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BarcodeComponent]
+      imports: [InvoiceReturnComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BarcodeComponent);
+    fixture = TestBed.createComponent(InvoiceReturnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

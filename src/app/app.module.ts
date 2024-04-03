@@ -10,7 +10,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { BarcodeComponent } from './pages/barcode/barcode.component';
 import { MessageService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { ToastModule } from 'primeng/toast';
@@ -40,6 +39,8 @@ import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.compo
 import { SaleComponent } from './pages/sale/sale.component';
 import { DatePipe } from '@angular/common';
 import { PrintInvoiceComponent } from './pages/print-invoice/print-invoice.component';
+import { InvoiceReturnComponent } from './pages/invoice-return/invoice-return.component';
+// import { ReportComponent } from './pages/report/report.component';
 
 @NgModule({
     declarations: [
@@ -52,14 +53,15 @@ import { PrintInvoiceComponent } from './pages/print-invoice/print-invoice.compo
         InventoryComponent,
         ProductComponent,
         CustomerComponent,
-        BarcodeComponent,
         AppComponent,
         NotfoundComponent,
         SupplierComponent,
         VoucherComponent,
         PurchaseOrderComponent,
         PrintBarcodeComponent,
-        PrintInvoiceComponent
+        PrintInvoiceComponent,
+        InvoiceReturnComponent,
+        // ReportComponent
     ],
 
     imports: [

@@ -12,4 +12,5 @@ export interface InvoiceResponse {
     totalDiscount: number;
     totalPrice: number;
     status: string;
+    cartData: any
   }

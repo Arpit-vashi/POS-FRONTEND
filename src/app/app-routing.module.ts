@@ -14,6 +14,8 @@ import { CsvConverterComponent } from './pages/csv-converter/csv-converter.compo
 import { UserComponent } from './pages/user/user.component';
 import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
 import { SaleComponent } from './pages/sale/sale.component';
+import { InvoiceReturnComponent } from './pages/invoice-return/invoice-return.component';
+// import { ReportComponent } from './pages/report/report.component';
 
 @NgModule({
     imports: [
@@ -35,6 +37,8 @@ import { SaleComponent } from './pages/sale/sale.component';
                         {path: 'csv', component: CsvConverterComponent},
                         {path: 'user', component: UserComponent},
                         {path: 'print-Barcode', component: PrintBarcodeComponent},
+                        {path: 'return', component: InvoiceReturnComponent},
+                        // {path: 'report', component: ReportComponent},
 
                     ],   
                 },
