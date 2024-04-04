@@ -32,11 +32,11 @@ export class ProductService {
     return this.http.delete<void>(`${this.baseUrl}/${productId}`);
   }
 
-  uploadFile(file: File): Observable<string> {
+  uploadFile(file: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
-    return this.http.post<string>(`${this.baseUrl}/upload`, formData);
+    return this.http.post<any>(`${this.baseUrl}/upload`, formData);
   }
 
   generateBarcode(productId: string): Observable<Blob> {

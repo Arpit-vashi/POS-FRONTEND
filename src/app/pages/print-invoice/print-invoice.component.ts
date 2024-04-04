@@ -38,9 +38,10 @@ export class PrintInvoiceComponent implements OnChanges {
 
     // Add the store name and contact info at the top
     doc.setFontSize(18);
-    doc.text('BitStore', 105, 25, { align: 'center' });
+    doc.setFont("helvetica", "bold");
+    doc.text('POS-PGS', 105, 25, { align: 'center'});
     doc.setFontSize(12);
-    doc.text('Contact: 123456', 105, 32, { align: 'center' });
+    doc.text('Contact: 0000000000', 105, 32, { align: 'center' });
 
     // Add Customer Information
     doc.setFontSize(10);
@@ -89,6 +90,7 @@ export class PrintInvoiceComponent implements OnChanges {
     doc.line(10, startY - 3, 190, startY - 3);
 
     // Add Total MRP, Tax, and Grand Total
+    startY += 10;
     doc.setFontSize(10);
     doc.text('Total MRP:', 150, startY, { align: 'right' });
     doc.text(`${this.invoiceData.totalMRP ? this.invoiceData.totalMRP.toFixed(2) : '0.00'}`, 180, startY, { align: 'right' });
@@ -109,22 +111,22 @@ export class PrintInvoiceComponent implements OnChanges {
 
     // Add a footer note
     doc.setFontSize(10);
-    doc.text('Thank you for your order! 10% GST application on total amount.', 20, startY);
+    doc.text('Thank you for Shopping with us !', 20, startY);
     startY += 5;
 
     // Add contact information and thank you note
-    doc.text('help@developer.me', 20, startY);
+    doc.text('For help:- help@developer.me', 20, startY);
     startY += 5;
-    doc.text('Thank You, Visit Again :)', 20, startY);
+    doc.text('Visit Again :)', 20, startY);
 
     // Generate QR code
-    QRCode.toDataURL(JSON.stringify(this.invoiceData)).then(qrCodeDataUrl => {
-      // Add the QR code image to the PDF
-      doc.addImage(qrCodeDataUrl, 'PNG', 80, 200, 50, 50); // Adjust the position and size as needed
-
-      // Save the PDF
-      doc.save(`${this.fileName}.pdf`);
-    });
+      QRCode.toDataURL(JSON.stringify(this.invoiceData)).then(qrCodeDataUrl => {
+        // Add the QR code image to the PDF
+        doc.addImage(qrCodeDataUrl, 'PNG', 80, 200, 50, 50); // Adjust the position and size as needed
+  
+        // Save the PDF
+        doc.save(`${this.fileName}.pdf`);
+      });
   }
 
 }

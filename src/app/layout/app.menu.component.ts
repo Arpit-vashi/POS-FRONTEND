@@ -27,8 +27,8 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Print Barcodes', icon: 'pi pi-fw pi-print', routerLink: ['/print-Barcode'] },
                     { label: 'Return', icon: 'pi pi-fw pi-refresh', routerLink: ['/return'] },
                     { label: 'User', icon: 'pi pi-fw pi-id-card', routerLink: ['/user'] },
-                    // { label: 'Reports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/report'] },
-                    { label: 'Admin Insights', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
+                    { label: 'Admin Dashboard', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/admin-dashboard'] },
+                    // { label: 'Admin Insights', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
                     {
                         label: 'Utils',
                         icon: 'pi pi-fw pi-th-large',

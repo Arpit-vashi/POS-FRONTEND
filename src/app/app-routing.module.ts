@@ -15,7 +15,7 @@ import { UserComponent } from './pages/user/user.component';
 import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.component';
 import { SaleComponent } from './pages/sale/sale.component';
 import { InvoiceReturnComponent } from './pages/invoice-return/invoice-return.component';
-// import { ReportComponent } from './pages/report/report.component';
+import { ReportComponent } from './pages/report/report.component';
 
 @NgModule({
     imports: [
@@ -38,7 +38,7 @@ import { InvoiceReturnComponent } from './pages/invoice-return/invoice-return.co
                         {path: 'user', component: UserComponent},
                         {path: 'print-Barcode', component: PrintBarcodeComponent},
                         {path: 'return', component: InvoiceReturnComponent},
-                        // {path: 'report', component: ReportComponent},
+                        {path: 'admin-dashboard', component: ReportComponent},
 
                     ],   
                 },

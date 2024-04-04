@@ -15,4 +15,7 @@
   .form-actions {
     display: flex;
   }
-  
+  .form-group{
+    display: flex;
+    flex-direction: column;
+  }

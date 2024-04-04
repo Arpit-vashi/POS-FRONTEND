@@ -48,6 +48,21 @@ export class InvoiceComponent implements OnInit {
     );
   }
 
+  returnInvoice(invoice: InvoiceResponse) {
+    invoice.status = 'Return';
+    this.invoiceService.updateInvoice(invoice.invoiceID, invoice).subscribe(
+        () => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Invoice status updated to Return' });
+            this.loadInvoices();
+        },
+        error => {
+            console.error('Error updating invoice status:', error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update invoice status' });
+        }
+    );
+}
+
+
   deleteInvoice(invoiceId: number) {
     this.invoiceService.deleteInvoice(invoiceId).subscribe(
         () => {

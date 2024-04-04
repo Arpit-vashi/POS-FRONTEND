@@ -2,7 +2,11 @@
     [tableData]="invoices"
     fileName="Invoice_List"
 ></app-pdf-generator>
-<app-print-invoice #printInvoice [invoiceData]="selectedInvoice" [fileName]="'Invoice-' + selectedInvoice?.invoiceID"></app-print-invoice>
+<app-print-invoice
+    #printInvoice
+    [invoiceData]="selectedInvoice"
+    [fileName]="'Invoice-' + selectedInvoice?.invoiceID"
+></app-print-invoice>
 
 <div class="card">
     <p-table
@@ -271,6 +275,15 @@
                         (click)="generatePDF(invoice)"
                         class="p-button-rounded p-button-text p-button-info"
                     ></button>
+                    <button
+                        pButton
+                        type="button"
+                        icon="pi pi-undo"
+                        class="p-button-rounded p-button-text p-button-warning"
+                        (click)="returnInvoice(invoice)"
+                    >
+                        Return
+                    </button>
                 </td>
             </tr>
         </ng-template>

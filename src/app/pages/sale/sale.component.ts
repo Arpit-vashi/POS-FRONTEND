@@ -106,7 +106,6 @@ export class SaleComponent implements OnInit, OnDestroy {
             ],            
             paymentMethod: [this.selectedPaymentMethod, Validators.required],
             status: [this.selectedStatus, Validators.required],
-            // dateTime: [this.datePipe.transform(new Date(), 'yyyy/MM/dd HH:mm:ss'), Validators.required],
             dateTime: [
                 this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss'),
                 Validators.required,
@@ -143,6 +142,7 @@ export class SaleComponent implements OnInit, OnDestroy {
         this.productService.getAllProducts().subscribe(
             (products) => {
                 this.products = products;
+                console.log(products)
             },
             (error) => {
                 console.error('Error fetching products:', error);
@@ -527,25 +527,13 @@ export class SaleComponent implements OnInit, OnDestroy {
             quantity: product.quantity,
         }));
     }
-
-    // printInvoice() {
-    //     if (this.saleForm) {
-    //       const invoiceData = this.prepareInvoiceData();
-    //       const cartData = this.prepareCartData();
-    //       const finalInvoiceData = { ...invoiceData, cartData: cartData };
-    //       console.log(finalInvoiceData);
-
-    //       // Update invoice data in the service
-    //       this.invoiceService.updateInvoiceData(finalInvoiceData);
-    //     }
-    //   }
-
     printInvoice() {
         if (this.saleForm) {
           const invoiceData = this.prepareInvoiceData();
           const cartData = this.prepareCartData();
           this.finalInvoiceData = { ...invoiceData, cartData: cartData };
           console.log(this.finalInvoiceData);
+          this.submitForm()
         }
       }
       

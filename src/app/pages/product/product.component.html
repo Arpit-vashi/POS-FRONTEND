@@ -1,170 +1,384 @@
-<app-pdf-generator [tableData]="products" fileName="Product_List"></app-pdf-generator>
+<app-pdf-generator
+    [tableData]="products"
+    fileName="Product_List"
+></app-pdf-generator>
 <div class="card">
-  <h5><strong>Add Product</strong></h5>
-  <hr>
-  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="name" class="block">Product Name*</label>
-        <input type="text" formControlName="name" pInputText class="mb-3 mr-5">
-      </div> 
-      <div class="form-group">
-        <label for="description" class="block">Product Description*</label>
-        <input type="text" formControlName="description" class="mb-3 mr-5" pInputText>
-      </div>
+    <h5><strong>Add Product</strong></h5>
+    <hr />
+    <form
+        [formGroup]="productForm"
+        (ngSubmit)="onSubmit()"
+        class="product-form"
+    >
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name" class="block"
+                    ><strong>Product Name*</strong></label
+                >
+                <input
+                    type="text"
+                    formControlName="name"
+                    pInputText
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="productForm.controls['name'].touched && productForm.controls['name'].errors?.['required']"
+                    class="p-error"
+                    >Product Name is required.</small
+                >
+            </div>
+            <div class="form-group">
+                <label for="description" class="block"
+                    ><strong>Product Description*</strong></label
+                >
+                <input
+                    type="text"
+                    formControlName="description"
+                    class="mr-5"
+                    pInputText
+                />
+                <small
+                    *ngIf="productForm.controls['description'].touched && productForm.controls['description'].errors?.['required']"
+                    class="p-error"
+                    >Product Description is required.</small
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="price" class="block"
+                    ><strong>Product Selling Price* (INR)</strong></label
+                >
+                <p-inputNumber
+                    formControlName="price"
+                    inputId="locale-indian"
+                    mode="decimal"
+                    locale="en-IN"
+                    class="mr-5"
+                    [minFractionDigits]="2"
+                ></p-inputNumber>
+                <small
+                    *ngIf="productForm.controls['price'].touched && productForm.controls['price'].errors?.['required']"
+                    class="p-error"
+                    >Product Selling Price is required.</small
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="tax" class="block"
+                    ><strong>Product Tax* (INR)</strong></label
+                >
+                <p-inputNumber
+                    formControlName="tax"
+                    inputId="locale-indian"
+                    mode="decimal"
+                    locale="en-IN"
+                    class="mr-5"
+                    [minFractionDigits]="2"
+                ></p-inputNumber>
+                <small
+                    *ngIf="productForm.controls['tax'].touched && productForm.controls['tax'].errors?.['required']"
+                    class="p-error"
+                    >Product Tax is required.</small
+                >
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="purchasePrice" class="block"
+                    ><strong>Product Purchase Price* (INR)</strong></label
+                >
+                <p-inputNumber
+                    formControlName="purchasePrice"
+                    mode="decimal"
+                    locale="en-IN"
+                    class="mr-5"
+                    [minFractionDigits]="2"
+                ></p-inputNumber>
+                <small
+                    *ngIf="productForm.controls['purchasePrice'].touched && productForm.controls['purchasePrice'].errors?.['required']"
+                    class="p-error"
+                    >Product Purchase Price is required.</small
+                >
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="stockQuantity" class="block"
+                    ><strong>Product Stock*</strong></label
+                >
+                <p-inputNumber
+                    formControlName="stockQuantity"
+                    mode="decimal"
+                    inputId="withoutgrouping"
+                    [useGrouping]="false"
+                    class="mr-5"
+                ></p-inputNumber>
+                <small
+                    *ngIf="productForm.controls['stockQuantity'].touched && productForm.controls['stockQuantity'].errors?.['required']"
+                    class="p-error"
+                    >Product Stock is required.</small
+                >
+            </div>
+
+            <div class="form-group mt-3" style="min-width: 21%">
+                <label for="suppliers" class="block"
+                    ><strong>Product Suppliers*</strong></label
+                >
+                <p-multiSelect
+                    class="mr-5"
+                    [style]="{ 'min-width': '100%' }"
+                    [options]="suppliers"
+                    formControlName="supplierIds"
+                    defaultLabel="Select Suppliers"
+                    optionLabel="supplierAgency"
+                    display="chip"
+                ></p-multiSelect>
+                <small
+                    *ngIf="productForm.controls['supplierIds'].touched && productForm.controls['supplierIds'].errors?.['required']"
+                    class="p-error"
+                    >Product Suppliers are required.</small
+                >
+            </div>
+        </div>
+
+        <div class="form-actions mt-3">
+            <button
+                pButton
+                type="submit"
+                [style]="{ 'min-width': '18.3%' }"
+                class="p-button-raised p-button-success add"
+                label="Add Product"
+                icon="pi pi-plus"
+                [disabled]="!productForm.valid"
+            ></button>
+            <button
+                pButton
+                pRipple
+                (click)="resetForm()"
+                [style]="{ 'min-width': '18.3%' }"
+                icon="pi pi-undo"
+                type="button"
+                label="Clear Form"
+                class="p-button-raised p-button-danger add"
+            ></button>
+            <button
+                pButton
+                pRipple
+                (click)="downloadProductsPdf()"
+                [style]="{ 'min-width': '18.3%' }"
+                icon="pi pi-print"
+                type="button"
+                label="Print Product List"
+                class="p-button-raised p-button-info"
+            ></button>
+        </div>
+    </form>
+    <hr />
+    <div>
+        <h5><strong>Add Products with CSV</strong></h5>
+        <p-fileUpload
+            #uploader
+            mode="basic"
+            name="products[]"
+            (onSelect)="onUpload($event)"
+            accept=".csv"
+            maxFileSize="1000000"
+            [auto]="true"
+            chooseLabel="Select File"
+        ></p-fileUpload>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="price" class="block">Product Selling Price* (INR)</label>
-        <p-inputNumber formControlName="price" inputId="locale-indian" mode="decimal" inputId="locale-IN" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
-      </div>
-      <div class="form-group">
-        <label for="tax" class="block">Product Tax* (INR)</label>
-        <p-inputNumber inputId="locale-indian" formControlName="tax" inputId="locale-IN" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
-      </div>
-      <div class="form-group">
-        <label for="purchasePrice" class="block">Product Purchase Price* (INR)</label>
-        <p-inputNumber inputId="locale-indian" formControlName="purchasePrice" mode="decimal" locale="en-IN" class="mb-3 mr-5" [minFractionDigits]="2"></p-inputNumber>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="stockQuantity" class="block">Product Stock*</label>
-        <p-inputNumber formControlName="stockQuantity" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" class="mb-3 mr-5"></p-inputNumber>
-      </div>
-      <div class="form-group">
-        <label for="suppliers" class="block">Product Suppliers*</label>
-        <p-multiSelect class="mb-3 mr-5" [style]="{'min-width': '100%'}" [options]="suppliers" formControlName="supplierIds" defaultLabel="Select Suppliers" optionLabel="supplierAgency" display="chip"></p-multiSelect>
-      </div>
-    </div>
-    
-    <div class="form-actions">
-      <button pButton type="submit" [style]="{'min-width': '15.8%'}" class="p-button-raised p-button-success add" label="Add Product" icon="pi pi-plus"></button>
-      <button pButton pRipple (click)="resetForm()" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
-      <button pButton pRipple (click)="downloadProductsPdf()" [style]="{'min-width': '15.8%'}" icon="pi pi-print" type="button" label="Print Product List" class="p-button-raised p-button-info"></button>
-    </div>
-  </form>
-  <hr>
-  <div>
-    <h5><strong>Add Products with CSV</strong></h5>
-    <p-fileUpload #uploader mode="basic" name="products[]" (onSelect)="onUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Select File"></p-fileUpload>
-  </div>
 </div>
 
-<hr>
+<hr />
 <div class="card">
-  <h5><strong>Product List</strong></h5>
-  <p-table [value]="products" dataKey="productId" editMode="row" [tableStyle]="{'min-width': '50rem'}">
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width:20%">ID</th>
-        <th style="width:20%">Name</th>
-        <th style="width:20%">Description</th>
-        <th style="width:20%">Price</th>
-        <th style="width:20%">Tax</th>
-        <th style="width:20%">Total</th>
-        <th style="width:20%">Stock Quantity</th>
-        <th style="width:20%">Purchase Price</th>
-        <th style="width:20%">Barcode Number</th>
-        <th style="width:20%">Barcode Image</th>
-        <th style="width:20%">Supplier IDs</th>
-        <th style="width:20%">Action</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
-      <tr [pEditableRow]="product">
-        <td>{{ product.productId }}</td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input pInputText type="text" [(ngModel)]="product.name">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{ product.name }}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input pInputText type="text" [(ngModel)]="product.description">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{ product.description }}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input pInputText type="number" [(ngModel)]="product.price">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{ product.price }}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input pInputText type="number" [(ngModel)]="product.tax">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{ product.tax }}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input pInputText type="number" [(ngModel)]="product.total">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{ product.total }}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input pInputText type="number" [(ngModel)]="product.stockQuantity">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{ product.stockQuantity }}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input pInputText type="number" [(ngModel)]="product.purchasePrice">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{ product.purchasePrice }}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>{{ product.barcodeNumber }}</td>
-        <td>
-          <img *ngIf="product.barcodeImage" [src]="getBarcodeImageSrc(product)" alt="Barcode Image" width="140" height="30">
-          <span *ngIf="!product.barcodeImage">No Image Available</span>
-        </td>
-        <td>{{ product.supplierIds }}</td>
-        <td>
-          <div class="flex align-items-center justify-content-center gap-2">
-            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)"
-              class="p-button-rounded p-button-text"></button>
-            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)"
-              class="p-button-rounded p-button-text p-button-success mr-2"></button>
-            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product, ri)"
-              class="p-button-rounded p-button-text p-button-danger"></button>
-            <!-- Change icon to trash -->
-            <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteProduct(product.productId)"
-              class="p-button-rounded p-button-text p-button-danger"></button>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+    <h5><strong>Product List</strong></h5>
+    <p-table
+        [value]="products"
+        dataKey="productId"
+        editMode="row"
+        [tableStyle]="{ 'min-width': '50rem' }"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 20%">ID</th>
+                <th style="width: 20%">Name</th>
+                <th style="width: 20%">Description</th>
+                <th style="width: 20%">Price</th>
+                <th style="width: 20%">Tax</th>
+                <th style="width: 20%">Total</th>
+                <th style="width: 20%">Stock Quantity</th>
+                <th style="width: 20%">Purchase Price</th>
+                <th style="width: 20%">Barcode Number</th>
+                <th style="width: 20%">Barcode Image</th>
+                <th style="width: 20%">Supplier IDs</th>
+                <th style="width: 20%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template
+            pTemplate="body"
+            let-product
+            let-editing="editing"
+            let-ri="rowIndex"
+        >
+            <tr [pEditableRow]="product">
+                <td>{{ product.productId }}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="product.name"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.name }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="product.description"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.description }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="product.price"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.price }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="product.tax"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.tax }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="product.total"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.total }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="product.stockQuantity"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.stockQuantity }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="product.purchasePrice"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.purchasePrice }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>{{ product.barcodeNumber }}</td>
+                <td>
+                    <img
+                        *ngIf="product.barcodeImage"
+                        [src]="getBarcodeImageSrc(product)"
+                        alt="Barcode Image"
+                        width="140"
+                        height="30"
+                    />
+                    <span *ngIf="!product.barcodeImage"
+                        >No Image Available</span
+                    >
+                </td>
+                <td>{{ product.supplierIds }}</td>
+                <td>
+                    <div
+                        class="flex align-items-center justify-content-center gap-2"
+                    >
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pInitEditableRow
+                            icon="pi pi-pencil"
+                            (click)="onRowEditInit(product)"
+                            class="p-button-rounded p-button-text"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pSaveEditableRow
+                            icon="pi pi-check"
+                            (click)="onRowEditSave(product)"
+                            class="p-button-rounded p-button-text p-button-success mr-2"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pCancelEditableRow
+                            icon="pi pi-times"
+                            (click)="onRowEditCancel(product, ri)"
+                            class="p-button-rounded p-button-text p-button-danger"
+                        ></button>
+                        <!-- Change icon to trash -->
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-trash"
+                            (click)="deleteProduct(product.productId)"
+                            class="p-button-rounded p-button-text p-button-danger"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
 <p-toast></p-toast>

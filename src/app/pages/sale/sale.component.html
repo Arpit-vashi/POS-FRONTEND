@@ -1,19 +1,7 @@
-<app-print-invoice [invoiceData]="finalInvoiceData" fileName="Invoice_List"></app-print-invoice>
-
-<div class="card">
-    <div class="hed">
-        <p>
-            <strong
-                style="
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                "
-                ><u>Point Of Sales - PGS</u></strong
-            >
-        </p>
-    </div>
-</div>
+<app-print-invoice
+    [invoiceData]="finalInvoiceData"
+    fileName="Invoice_List"
+></app-print-invoice>
 <div class="card">
     <div id="Top-Bar">
         <div class="invoice-id">
@@ -31,7 +19,7 @@
     </div>
     <hr />
     <div class="form-row">
-        <div class="form-group mr-5">
+        <div class="form-group mr-6">
             <label for="deliverDate">Select Customer*</label>
             <p-dropdown
                 [options]="customers"
@@ -42,6 +30,7 @@
                 filterBy="name"
                 [showClear]="true"
                 placeholder="Customers"
+                [style]="{ 'min-width': '120%' }"
             >
                 <ng-template let-customer pTemplate="selectedItem">
                     <div
@@ -68,6 +57,7 @@
                 icon="pi pi-plus"
                 class="p-button-raised"
                 (click)="redirectToCustomerPage()"
+                [style]="{ 'min-width': '162%' }"
             ></button>
         </div>
     </div>
@@ -81,6 +71,7 @@
                 defaultLabel="Select Products"
                 optionLabel="name"
                 selectedItemsLabel="{0} items selected"
+                [style]="{ 'min-width': '110%' }"
             ></p-multiSelect>
         </div>
         <div class="form-group">
@@ -125,7 +116,7 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group">
+        <div class="form-group mr-5">
             <button
                 pButton
                 pRipple
@@ -134,9 +125,10 @@
                 icon="pi pi-cart-plus"
                 class="p-button-raised p-button-info mb-3 mr-5"
                 (click)="addToCartWithReset()"
+                [style]="{ 'min-width': '110%' }"
             ></button>
         </div>
-        <div class="form-group">
+        <div class="form-group mr-5">
             <button
                 pButton
                 pRipple
@@ -145,9 +137,10 @@
                 icon="pi pi-trash"
                 class="p-button-raised p-button-danger mb-3 mr-5"
                 (click)="clearCart()"
+                [style]="{ 'min-width': '110%' }"
             ></button>
         </div>
-        <div class="form-group">
+        <div class="form-group mr-5">
             <button
                 pButton
                 pRipple
@@ -156,6 +149,7 @@
                 icon="pi pi-times"
                 class="p-button-raised p-button-secondary mb-3 mr-5"
                 (click)="clearForm()"
+                [style]="{ 'min-width': '110%' }"
             ></button>
         </div>
     </div>
@@ -167,7 +161,7 @@
                 <p-table
                     [value]="productsInCart"
                     dataKey="productId"
-                    [tableStyle]="{ 'min-width': '50rem' }"
+                    [tableStyle]=""
                 >
                     <ng-template pTemplate="header">
                         <tr>
@@ -257,6 +251,7 @@
                 pInputText
                 [(ngModel)]="voucherValue"
                 (input)="onVoucherInputChange()"
+                placeholder="voucher"
             />
         </div>
         <div class="form-group mr-5 mb-3">
@@ -268,6 +263,7 @@
                 class="p-button-raised p-button-success"
                 [disabled]="voucherInputEmpty"
                 (click)="checkVoucher()"
+                [style]="{ 'min-width': '100%' }"
             ></button>
         </div>
         <div class="form-group mr-5 mb-3">
@@ -322,9 +318,9 @@
                 label="Submit Invoice"
                 class="p-button-raised p-button-success"
                 (click)="submitForm()"
+                [style]="{ 'min-width': '110%' }"
             ></button>
         </div>
     </div>
     <p-toast></p-toast>
 </div>
-

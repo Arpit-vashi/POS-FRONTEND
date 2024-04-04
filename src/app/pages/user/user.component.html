@@ -5,61 +5,72 @@
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
             <div class="form-group">
-                <label for="fullName" class="block">Full Name*</label>
-                <input id="fullName" class="mb-3 mr-5" type="text" aria-describedby="fullName-help" pInputText formControlName="fullName" />
+                <label for="fullName" class="block"><strong>Full Name*</strong></label>
+                <input id="fullName" class=" mr-5" type="text" aria-describedby="fullName-help" pInputText formControlName="fullName" />
+                <div *ngIf="userForm.get('fullName').invalid && (userForm.get('fullName').dirty || userForm.get('fullName').touched)">
+                    <div *ngIf="userForm.get('fullName').errors?.required">Full Name is required.</div>
+                </div>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
-                <label for="username" class="block">Username*</label>
-                <input id="username" class="mb-3 mr-5" type="text" aria-describedby="username-help" pInputText formControlName="username" />
+            <div class="form-group mt-3">
+                <label for="username" class="block"><strong>Username*</strong></label>
+                <input id="username" class="mr-5" type="text" aria-describedby="username-help" pInputText formControlName="username" />
+                <div *ngIf="userForm.get('username').invalid && (userForm.get('username').dirty || userForm.get('username').touched)">
+                    <div *ngIf="userForm.get('username').errors?.required">Username is required.</div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password" class="block">Password*</label>
-                <input id="password" class="mb-3 mr-5" type="password" aria-describedby="password-help" pInputText formControlName="password" />
+            <div class="form-group mt-3">
+                <label for="password" class="block"><strong>Password*</strong></label>
+                <input id="password" class="mr-5" type="password" aria-describedby="password-help" pInputText formControlName="password" />
+                <div *ngIf="userForm.get('password').invalid && (userForm.get('password').dirty || userForm.get('password').touched)">
+                    <div *ngIf="userForm.get('password').errors?.required">Password is required.</div>
+                </div>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
-                <label for="email" class="block">Email*</label>
+            <div class="form-group mt-3">
+                <label for="email" class="block"><strong>Email*</strong></label>
                 <input id="email" class="mr-5" type="email" aria-describedby="email-help" pInputText formControlName="email" />
                 <div *ngIf="userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched)">
-                    <div *ngIf="userForm.get('email').errors.required">Email is required.</div>
-                    <div *ngIf="userForm.get('email').errors.email">Invalid email format.</div>
+                    <div *ngIf="userForm.get('email').errors?.required">Email is required.</div>
+                    <div *ngIf="userForm.get('email').errors?.email">Invalid email format.</div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="phone">Phone*</label>
-                <input id="phone" class="mb-3 mr-5" type="tel" aria-describedby="phone-help" pInputText formControlName="phone" />
+            <div class="form-group mt-3">
+                <label for="phone"><strong>Phone*</strong></label>
+                <input id="phone" class="mr-5" type="tel" aria-describedby="phone-help" pInputText formControlName="phone" />
                 <div *ngIf="userForm.get('phone').invalid && (userForm.get('phone').dirty || userForm.get('phone').touched)">
-                    <div *ngIf="userForm.get('phone').errors.required">Phone number is required.</div>
-                    <div *ngIf="userForm.get('phone').errors.pattern">Invalid phone number format. Please enter 10 digits.</div>
+                    <div *ngIf="userForm.get('phone').errors?.required">Phone number is required.</div>
+                    <div *ngIf="userForm.get('phone').errors?.pattern">Invalid phone number format. Please enter 10 digits.</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group" [style]="{'min-width': '15.8%'}">
-                <label for="role">Role*</label>
-                <p-dropdown [options]="roles" class="mb-3" [style]="{'min-width': '100%'}" [(ngModel)]="selectedRole" placeholder="Select a Role" optionLabel="label" formControlName="role" [showClear]="true"></p-dropdown>
+            <div class="form-group mt-3" [style]="{'min-width': '18%'}">
+                <label for="role"><strong>Role*</strong></label>
+                <p-dropdown [options]="roles" class="" [style]="{'min-width': '100%'}" [(ngModel)]="selectedRole" placeholder="Select a Role" optionLabel="label" formControlName="role" [showClear]="true"></p-dropdown>
+                <div *ngIf="userForm.get('role').invalid && (userForm.get('role').dirty || userForm.get('role').touched)">
+                    <div *ngIf="userForm.get('role').errors?.required">Role is required.</div>
+                </div>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group mr-5" [style]="{'min-width': '15.8%'}">
-                <button pButton pRipple type="submit" label="Add User" [style]="{'min-width': '100%'}" icon="pi pi-plus" class="mr-5 mb-3 p-button-raised p-button-success"></button>
+            <div class="form-group mr-5 mt-3" [style]="{'min-width': '18%'}">
+                <button pButton pRipple type="submit" label="Add User" [style]="{'min-width': '100%'}" icon="pi pi-plus" class="mr-5 mb-3 p-button-raised p-button-success" [disabled]="!userForm.valid"></button>
             </div>
-            <div class="form-group" [style]="{'min-width': '17.8%'}">
+            <div class="form-group mt-3" [style]="{'min-width': '21%'}">
                 <button pButton pRipple (click)="this.userForm.reset()" [style]="{'min-width': '100%'}" [style]="{'min-width': '15.8%'}" icon="pi pi-undo" type="button" label="Clear Form" class="p-button-raised p-button-danger add"></button>
             </div>
-                <div class="form-group mr-5" [style]="{'min-width': '15.8%'}">
+                <div class="form-group mr-5 mt-3" [style]="{'min-width': '18%'}">
                 <button pButton pRipple (click)="downloadPdf()" [style]="{'min-width': '100%'}" icon="pi pi-print" type="button" label="Print User-List" class=" p-button-raised p-button-info"></button>
             </div>
         </div>
-       
     </form>
 </div>
   <hr>
   <div class="card">
-    <h5><strong>User</strong></h5>
+    <h5><strong>User List</strong></h5>
     <p-toast></p-toast>
     <div class="card">
         <h5>Row Editing</h5>
