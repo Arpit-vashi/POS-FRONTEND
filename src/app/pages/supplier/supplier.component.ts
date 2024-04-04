@@ -148,7 +148,7 @@ onRowEditCancel(supplier: SupplierResponse) {
     this.supplierService.uploadFile(file).subscribe(
       (response: any) => {
         console.log('Server Response:', response);
-        if (response && response.message === 'CSV processed successfully') {
+        if (response && response.message === 'CSV processed successfully. Data added successfully.') {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File uploaded successfully' });
           this.loadSuppliers();
         } else if (response && response.message === 'No change in data' || response.message === 'Duplicate data') {

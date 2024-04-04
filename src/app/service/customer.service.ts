@@ -36,6 +36,6 @@ export class CustomerService {
   uploadCSVFile(file: File): Observable<string> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-    return this.http.post<string>(`${this.apiUrl}/upload`, formData, { responseType: 'text' as 'json' });
+    return this.http.post<string>(`${this.apiUrl}/upload`, formData);
   }
 }

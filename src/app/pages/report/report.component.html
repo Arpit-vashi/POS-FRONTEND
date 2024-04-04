@@ -1,1 +1,24 @@
-<p>report works!</p>
+<div class="dashboard-container">
+<div class="card card-blue">
+    <i class="pi pi-book"></i>
+    <h2>Total Invoices</h2>
+    <p>{{ reportData?.invoiceCount }}</p>
+</div>
+<div class="card card-yellow">
+    <i class="pi pi-chart-pie"></i>
+    <h2>Total Tax</h2>
+    <p>₹{{ reportData?.totalTax }}</p>
+</div>
+<div class="card card-red">
+    <i class="pi pi-chart-line"></i>
+    <h2>Total Sales</h2>
+    <p>₹{{ reportData?.totalPrice }}</p>
+</div>
+<div class="card card-green">
+    <i class="pi pi-ticket"></i>
+    <h2>Total Vouchers</h2>
+    <p>{{ reportData?.voucherCount }}</p>
+</div>
+<div></div>
+
+</div>

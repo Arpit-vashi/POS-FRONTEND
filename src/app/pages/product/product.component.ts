@@ -178,7 +178,7 @@ onRowEditCancel(product: ProductResponse) {
     const fileToUpload: File = files.item(0);
     this.productService.uploadFile(fileToUpload).subscribe(
       (response: any) => {
-        if (response && response.message === 'CSV processed successfully') {
+        if (response && response.message === 'CSV processed successfully. Data added successfully.') {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File uploaded successfully' });
           this.loadProducts();
         } else if (response && (response.message === 'No change in data' || response.message === 'Duplicate data')) {

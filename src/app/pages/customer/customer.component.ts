@@ -125,7 +125,7 @@ export class CustomerComponent implements OnInit {
   uploadCustomerFile(file: File): void {
     this.customerService.uploadCSVFile(file).subscribe(
       (response: any) => {
-        if (response && response.message === 'CSV processed successfully') {
+        if (response && response.message === 'CSV processed successfully. Data added successfully.') {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File uploaded successfully' });
           this.loadCustomers();
         } else if (response && (response.message === 'No change in data' || response.message === 'Duplicate data')) {

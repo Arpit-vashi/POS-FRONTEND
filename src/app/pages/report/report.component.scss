@@ -1,0 +1,40 @@
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(4, 23.7%);
+    gap: 20px;
+}
+
+.card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.card h2 {
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.card i {
+    font-size: 2rem;
+
+}
+
+.card-yellow { border: solid 2px #ffc107;}
+.card-green { border: solid 2px #28a745; }
+.card-blue { border: solid 2px #007bff; }
+.card-red { border: solid 2px #dc3545; }
+.card-orange { border: solid 2px #fd7e14; }
+.card-purple { border: solid 2px #6610f2; }
+.card-pink { border: solid 2px #e83e8c; }
+.card-black {border: solid 2px black;}
