@@ -103,7 +103,7 @@ export class SaleComponent implements OnInit, OnDestroy {
             customerEmail: [
                 this.selectedCustomer ? this.selectedCustomer.email : '',
                 [Validators.required, Validators.email],
-            ],            
+            ],
             paymentMethod: [this.selectedPaymentMethod, Validators.required],
             status: [this.selectedStatus, Validators.required],
             dateTime: [
@@ -142,7 +142,6 @@ export class SaleComponent implements OnInit, OnDestroy {
         this.productService.getAllProducts().subscribe(
             (products) => {
                 this.products = products;
-                console.log(products)
             },
             (error) => {
                 console.error('Error fetching products:', error);
@@ -418,7 +417,6 @@ export class SaleComponent implements OnInit, OnDestroy {
     submitForm() {
         if (this.saleForm) {
             const cartData = this.prepareCartData();
-            debugger
             const selectedPaymentMethod = this.selectedPaymentMethod
                 ? this.selectedPaymentMethod.value
                 : '';
@@ -441,7 +439,7 @@ export class SaleComponent implements OnInit, OnDestroy {
                 ),
                 voucher: this.voucherValue,
                 totalDiscount: this.totalDiscount,
-                cartData: cartData
+                cartData: cartData,
             };
 
             this.invoiceService.createInvoice(invoiceRequest).subscribe(
@@ -499,7 +497,7 @@ export class SaleComponent implements OnInit, OnDestroy {
             paymentMethod: selectedPaymentMethod,
             customerName: this.saleForm.value.customerName,
             customerPhone: this.saleForm.value.customerPhone,
-            customerEmail: this.saleForm.value.customerEmail, // Added customer email
+            customerEmail: this.saleForm.value.customerEmail,
             totalMRP: this.totalPrice,
             totalTax: this.totalTax,
             totalPrice: this.overallTotal,
@@ -510,11 +508,11 @@ export class SaleComponent implements OnInit, OnDestroy {
             voucher: this.voucherValue,
             totalDiscount: this.totalDiscount,
 
-            cartData: []
+            cartData: [],
         };
         return invoiceRequest;
     }
-    
+
     prepareCartData() {
         return this.productsInCart.map((product, index) => ({
             itemNo: index + 1,
@@ -529,12 +527,10 @@ export class SaleComponent implements OnInit, OnDestroy {
     }
     printInvoice() {
         if (this.saleForm) {
-          const invoiceData = this.prepareInvoiceData();
-          const cartData = this.prepareCartData();
-          this.finalInvoiceData = { ...invoiceData, cartData: cartData };
-          console.log(this.finalInvoiceData);
-          this.submitForm()
+            const invoiceData = this.prepareInvoiceData();
+            const cartData = this.prepareCartData();
+            this.finalInvoiceData = { ...invoiceData, cartData: cartData };
+            this.submitForm();
         }
-      }
-      
+    }
 }

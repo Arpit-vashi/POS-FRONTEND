@@ -1,24 +1,191 @@
 <div class="dashboard-container">
-<div class="card card-blue">
-    <i class="pi pi-book"></i>
-    <h2>Total Invoices</h2>
-    <p>{{ reportData?.invoiceCount }}</p>
+    <div class="card card-blue">
+        <i class="pi pi-book"></i>
+        <h2>Total Invoices</h2>
+        <p>{{ reportData?.invoiceCount }}</p>
+    </div>
+    <div class="card card-yellow">
+        <i class="pi pi-chart-pie"></i>
+        <h2>Total Tax</h2>
+        <p>₹{{ reportData?.totalTax }}</p>
+    </div>
+    <div class="card card-red">
+        <i class="pi pi-chart-line"></i>
+        <h2>Total Sales</h2>
+        <p>₹{{ reportData?.totalPrice }}</p>
+    </div>
+    <div class="card card-green">
+        <i class="pi pi-ticket"></i>
+        <h2>Total Vouchers</h2>
+        <p>{{ reportData?.voucherCount }}</p>
+    </div>
+    <div></div>
 </div>
-<div class="card card-yellow">
-    <i class="pi pi-chart-pie"></i>
-    <h2>Total Tax</h2>
-    <p>₹{{ reportData?.totalTax }}</p>
-</div>
-<div class="card card-red">
-    <i class="pi pi-chart-line"></i>
-    <h2>Total Sales</h2>
-    <p>₹{{ reportData?.totalPrice }}</p>
-</div>
-<div class="card card-green">
-    <i class="pi pi-ticket"></i>
-    <h2>Total Vouchers</h2>
-    <p>{{ reportData?.voucherCount }}</p>
-</div>
-<div></div>
-
+<div class="cnt" style="display: flex; gap: 2%">
+    <div
+        class="card"
+        style="width: 49%; border: solid 1px pink; max-height: 300px"
+    >
+        <table class="greyGridTable">
+            <tbody>
+                <tr>
+                    <th style="color: red">Discount</th>
+                    <th style="color: green">Value</th>
+                </tr>
+                <tr>
+                    <td><strong>Total Discount Given</strong></td>
+                    <td>
+                        <strong class="viol"
+                            >₹{{ reportData?.totalDiscount }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Discount This Month</strong></td>
+                    <td>
+                        <strong class="viol"
+                            >₹{{ reportData?.totalDiscountForMonth }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Discount This Week</strong></td>
+                    <td>
+                        <strong class="viol"
+                            >₹{{ reportData?.totalDiscountForWeek }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <th style="color: red">Sales</th>
+                    <th style="color: green">Value</th>
+                </tr>
+                <tr>
+                    <td><strong>Total Sale</strong></td>
+                    <td>
+                        <strong style="color: blueviolet"
+                            >₹{{ reportData?.totalPrice }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Sale This Month</strong></td>
+                    <td>
+                        <strong style="color: blueviolet"
+                            >₹{{ reportData?.totalPriceForMonth }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Sale This Week</strong></td>
+                    <td>
+                        <strong style="color: blueviolet"
+                            >₹{{ reportData?.totalPriceForWeek }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <th style="color: red">Tax</th>
+                    <th style="color: green">Value</th>
+                </tr>
+                <tr>
+                    <td><strong>Total Tax</strong></td>
+                    <td>
+                        <strong style="color: blueviolet"
+                            >₹{{ reportData?.totalTax }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Tax This Month</strong></td>
+                    <td>
+                        <strong style="color: blueviolet"
+                            >₹{{ reportData?.totalTaxForMonth }}</strong
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Tax This Week</strong></td>
+                    <td>
+                        <strong style="color: blueviolet"
+                            >₹{{ reportData?.totalTaxForWeek }}</strong
+                        >
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div
+        class="card"
+        style="
+            width: 49%;
+            max-height: 300px;
+            overflow-y: auto;
+            border: solid 1px greenyellow;
+        "
+        id="notif"
+    >
+        <h2><strong>Announcement / Notification</strong></h2>
+        <hr />
+        <form [formGroup]="announcementform">
+            <div class="p-fluid mt-3" style="display: flex">
+                <div class="p-field" style="width: 70%">
+                    <input
+                        id="message"
+                        placeholder="Announcement Message"
+                        type="text"
+                        pInputText
+                        formControlName="message"
+                    />
+                </div>
+                <button
+                    type="button"
+                    pButton
+                    label="Add"
+                    (click)="addAnnouncement()"
+                    style="width: 30%"
+                    class="ml-3"
+                ></button>
+            </div>
+        </form>
+        <div class="table-scroll-wrapper">
+            <p-table [value]="announcement">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>Announcement</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-announcement>
+                    <tr>
+                        <td
+                            style="
+                                background-color: lightblue;
+                                justify-content: center;
+                            "
+                        >
+                            {{ announcement.notificationID }}
+                        </td>
+                        <td>{{ announcement.message }}</td>
+                        <td>
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                icon="pi pi-trash"
+                                (click)="
+                                    deleteAnnouncement(
+                                        announcement.notificationID
+                                    )
+                                "
+                                class="p-button-rounded p-button-text p-button-danger"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <p-toast></p-toast>
 </div>

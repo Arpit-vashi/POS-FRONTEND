@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 import { ReportResponse } from '../model/report/report-response.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ReportService {
-  private baseUrl = 'http://localhost:8080/reports';
+    private baseUrl = 'http://localhost:8080/reports';
 
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {}
 
-  generateReport(): Observable<ReportResponse> {
-    return this.http.get<ReportResponse>(`${this.baseUrl}/generateReport`);
-  }
+    generateReport(): Observable<ReportResponse> {
+        return this.http.get<ReportResponse>(`${this.baseUrl}/generateReport`);
+    }
 }

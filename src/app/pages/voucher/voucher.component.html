@@ -1,122 +1,266 @@
-<app-pdf-generator [tableData]="vouchers" fileName="Voucher_List"></app-pdf-generator>
+<app-pdf-generator
+    [tableData]="vouchers"
+    fileName="Voucher_List"
+></app-pdf-generator>
 <div class="card">
-  <h5><strong>Add Voucher</strong></h5>
-  <hr>
-  <form [formGroup]="voucherForm" (ngSubmit)="onSubmit()" class="voucher-form">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="voucherCode" class="block"><strong>Voucher Code*</strong></label>
-        <input type="text" pInputText formControlName="voucherCode" class="mr-5">
-        <small *ngIf="voucherForm.controls['voucherCode'].touched && voucherForm.controls['voucherCode'].errors?.['required']" class="p-error">Voucher Code is required.</small>
-      </div>
-      <div class="form-group">
-        <label for="discountAmount" class="block"><strong>Discount* (%)</strong></label>
-        <p-inputNumber class="mr-5" formControlName="discountAmount" mode="decimal" inputId="withoutgrouping" [useGrouping]="false"></p-inputNumber>
-        <small *ngIf="voucherForm.controls['discountAmount'].touched && voucherForm.controls['discountAmount'].errors?.['required']" class="p-error">Discount is required.</small>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group mt-3">
-        <label for="validForNumberOfCustomers" class="block"><strong>Valid For Number of Bills*</strong></label>
-        <p-inputNumber class="mr-5" formControlName="validForNumberOfCustomers" mode="decimal" inputId="withoutgrouping" [useGrouping]="false"></p-inputNumber>
-        <small *ngIf="voucherForm.controls['validForNumberOfCustomers'].touched && voucherForm.controls['validForNumberOfCustomers'].errors?.['required']" class="p-error">Valid For Number of Bills is required.</small>
-      </div>
-      <div class="form-group mt-3">
-        <label for="validForNumberOfDays" class="block"><strong>Valid For Number of Days*</strong></label>
-        <p-inputNumber class="mr-5" formControlName="validForNumberOfDays" mode="decimal" inputId="withoutgrouping" [useGrouping]="false"></p-inputNumber>
-        <small *ngIf="voucherForm.controls['validForNumberOfDays'].touched && voucherForm.controls['validForNumberOfDays'].errors?.['required']" class="p-error">Valid For Number of Days is required.</small>
-      </div>
-    </div>
-    <div class="form-actions">
-      <button pButton pRipple type="submit" [style]="{'min-width': '18.3%'}" label="Create" class="mt-3 p-button-raised p-button-success mr-5" [disabled]="!voucherForm.valid"></button>
-      <button pButton pRipple (click)="resetForm()" [style]="{'min-width': '18.3%'}" icon="pi pi-undo" type="button" label="Clear Form" class="mt-3 p-button-raised p-button-danger mr-5"></button>
-      <button pButton pRipple (click)="downloadPdf()" type="button" [style]="{'min-width': '18.3%'}" label="Print Voucher-List" icon="pi pi-print" class="mt-3 p-button-raised p-button-info"></button>
-    </div>
-  </form>
+    <h5><strong>Add Voucher</strong></h5>
+    <hr />
+    <form
+        [formGroup]="voucherForm"
+        (ngSubmit)="onSubmit()"
+        class="voucher-form"
+    >
+        <div class="form-row">
+            <div class="form-group">
+                <label for="voucherCode" class="block"
+                    ><strong>Voucher Code*</strong></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="voucherCode"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="voucherForm.controls['voucherCode'].touched && voucherForm.controls['voucherCode'].errors?.['required']"
+                    class="p-error"
+                    >Voucher Code is required.</small
+                >
+            </div>
+            <div class="form-group">
+                <label for="discountAmount" class="block"
+                    ><strong>Discount* (%)</strong></label
+                >
+                <p-inputNumber
+                    class="mr-5"
+                    formControlName="discountAmount"
+                    mode="decimal"
+                    inputId="withoutgrouping"
+                    [useGrouping]="false"
+                ></p-inputNumber>
+                <small
+                    *ngIf="voucherForm.controls['discountAmount'].touched && voucherForm.controls['discountAmount'].errors?.['required']"
+                    class="p-error"
+                    >Discount is required.</small
+                >
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group mt-3">
+                <label for="validForNumberOfCustomers" class="block"
+                    ><strong>Valid For Number of Bills*</strong></label
+                >
+                <p-inputNumber
+                    class="mr-5"
+                    formControlName="validForNumberOfCustomers"
+                    mode="decimal"
+                    inputId="withoutgrouping"
+                    [useGrouping]="false"
+                ></p-inputNumber>
+                <small
+                    *ngIf="voucherForm.controls['validForNumberOfCustomers'].touched && voucherForm.controls['validForNumberOfCustomers'].errors?.['required']"
+                    class="p-error"
+                    >Valid For Number of Bills is required.</small
+                >
+            </div>
+            <div class="form-group mt-3">
+                <label for="validForNumberOfDays" class="block"
+                    ><strong>Valid For Number of Days*</strong></label
+                >
+                <p-inputNumber
+                    class="mr-5"
+                    formControlName="validForNumberOfDays"
+                    mode="decimal"
+                    inputId="withoutgrouping"
+                    [useGrouping]="false"
+                ></p-inputNumber>
+                <small
+                    *ngIf="voucherForm.controls['validForNumberOfDays'].touched && voucherForm.controls['validForNumberOfDays'].errors?.['required']"
+                    class="p-error"
+                    >Valid For Number of Days is required.</small
+                >
+            </div>
+        </div>
+        <div class="form-actions">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                [style]="{ 'min-width': '18.3%' }"
+                label="Create"
+                class="mt-3 p-button-raised p-button-success mr-5"
+                [disabled]="!voucherForm.valid"
+            ></button>
+            <button
+                pButton
+                pRipple
+                (click)="resetForm()"
+                [style]="{ 'min-width': '18.3%' }"
+                icon="pi pi-undo"
+                type="button"
+                label="Clear Form"
+                class="mt-3 p-button-raised p-button-danger mr-5"
+            ></button>
+            <button
+                pButton
+                pRipple
+                (click)="downloadPdf()"
+                type="button"
+                [style]="{ 'min-width': '18.3%' }"
+                label="Print Voucher-List"
+                icon="pi pi-print"
+                class="mt-3 p-button-raised p-button-info"
+            ></button>
+        </div>
+    </form>
 </div>
-<hr>
+<hr />
 <div class="card">
     <h5><strong>Vouchers List</strong></h5>
-    <p-table [value]="vouchers" dataKey="voucherID" editMode="row" [tableStyle]="{'min-width': '50rem'}">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Id</th>
-          <th>Code</th>
-          <th>Discount (%)</th>
-          <th>Valid for Number of Bills</th>
-          <th>Valid for Number of Days</th>
-          <th>Action</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-voucher let-editing="editing" let-ri="rowIndex">
-        <tr [pEditableRow]="voucher" [pEditableRowIndex]="ri">
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="voucher.voucherID" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{voucher.voucherID}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="voucher.voucherCode" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{voucher.voucherCode}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="number" [(ngModel)]="voucher.discountAmount" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{voucher.discountAmount}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="number" [(ngModel)]="voucher.validForNumberOfCustomers" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{voucher.validForNumberOfCustomers}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="number" [(ngModel)]="voucher.validForNumberOfDays" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{voucher.validForNumberOfDays}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <div class="flex align-items-center justify-content-center gap-2">
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                class="p-button-rounded p-button-text"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                (click)="onRowEditSave(voucher)"
-                class="p-button-rounded p-button-text p-button-success mr-2"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                (click)="onRowEditCancel(voucher, ri)"
-                class="p-button-rounded p-button-text p-button-danger"></button>
-              <!-- Delete button -->
-              <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
-                (click)="onDeleteVoucher(voucher.voucherID)"></button>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
+    <p-table
+        [value]="vouchers"
+        dataKey="voucherID"
+        editMode="row"
+        [tableStyle]="{ 'min-width': '50rem' }"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>Discount (%)</th>
+                <th>Valid for Number of Bills</th>
+                <th>Valid for Number of Days</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template
+            pTemplate="body"
+            let-voucher
+            let-editing="editing"
+            let-ri="rowIndex"
+        >
+            <tr [pEditableRow]="voucher" [pEditableRowIndex]="ri">
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="voucher.voucherID"
+                                required
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ voucher.voucherID }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="voucher.voucherCode"
+                                required
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ voucher.voucherCode }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="voucher.discountAmount"
+                                required
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ voucher.discountAmount }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="voucher.validForNumberOfCustomers"
+                                required
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ voucher.validForNumberOfCustomers }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="number"
+                                [(ngModel)]="voucher.validForNumberOfDays"
+                                required
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ voucher.validForNumberOfDays }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <div
+                        class="flex align-items-center justify-content-center gap-2"
+                    >
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pInitEditableRow
+                            icon="pi pi-pencil"
+                            class="p-button-rounded p-button-text"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pSaveEditableRow
+                            icon="pi pi-check"
+                            (click)="onRowEditSave(voucher)"
+                            class="p-button-rounded p-button-text p-button-success mr-2"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pCancelEditableRow
+                            icon="pi pi-times"
+                            (click)="onRowEditCancel(voucher, ri)"
+                            class="p-button-rounded p-button-text p-button-danger"
+                        ></button>
+                        <!-- Delete button -->
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-text p-button-danger"
+                            (click)="onDeleteVoucher(voucher.voucherID)"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
     </p-table>
-  </div>
-  <p-toast></p-toast>
+</div>
+<p-toast></p-toast>

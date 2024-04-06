@@ -307,7 +307,14 @@
                 type="button"
                 label="Print Invoice"
                 class="p-button-raised"
+                icon="pi pi-print"
                 (click)="printInvoice()"
+                [disabled]="
+                    !selectedCustomer ||
+                    productsInCart.length === 0 ||
+                    !selectedPaymentMethod ||
+                    !selectedStatus
+                "
             ></button>
         </div>
         <div class="form-group mr-5">
@@ -317,8 +324,15 @@
                 type="button"
                 label="Submit Invoice"
                 class="p-button-raised p-button-success"
+                icon="pi pi-plus"
                 (click)="submitForm()"
                 [style]="{ 'min-width': '110%' }"
+                [disabled]="
+                    !selectedCustomer ||
+                    productsInCart.length === 0 ||
+                    !selectedPaymentMethod ||
+                    !selectedStatus
+                "
             ></button>
         </div>
     </div>

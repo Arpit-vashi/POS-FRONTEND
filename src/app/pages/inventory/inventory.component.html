@@ -1,57 +1,121 @@
-<app-pdf-generator [tableData]="filteredProducts" fileName="Inventory_List"></app-pdf-generator>
+<app-pdf-generator
+    [tableData]="filteredProducts"
+    fileName="Inventory_List"
+></app-pdf-generator>
 
 <div class="card">
-  <h5><strong>Inventory</strong></h5>
-  <span class="p-input-icon-left">
-    <i class="pi pi-search"></i>
-    <input pInputText type="text" (input)="applyGlobalFilter($event)" placeholder="Search" />
-  </span>
-  <button pButton pRipple (click)="downloadInventoryPdf()" icon="pi pi-print" type="button" label="Print Inventory List" class="p-button-raised p-button-info mr-5 ml-5" [style]=""></button>
-  <hr>
-  <p-table [value]="filteredProducts" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
-    <!-- Table header template -->
-    <ng-template pTemplate="header">
-      <tr>
-        <th >Id</th>
-        <th >Name</th>
-        <th >Stock</th>
-        <th >Supplier</th>
-        <th >Action</th>
-      </tr>
-    </ng-template>
-
-    <!-- Table body template -->
-    <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
-      <tr [pEditableRow]="product">
-        <td>
-          {{product.productId}}
-        </td>
-        <td>
-          <strong>{{product.name}}</strong>
-        </td>
-        <td>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <p-inputNumber [(ngModel)]="product.stockQuantity" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1"
-        decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" mode="decimal">
-        </p-inputNumber>
-            </ng-template>
-            <ng-template pTemplate="output">
-              <strong> {{product.stockQuantity}}</strong>
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td>
-          {{product.supplierIds}}
-        </td>
-        <td>
-          <div class="flex align-items-center justify-content-center gap-2">
-            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)" class="p-button-rounded p-button-text"></button>
-            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+    <h5><strong>Inventory</strong></h5>
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+            pInputText
+            type="text"
+            (input)="applyGlobalFilter($event)"
+            placeholder="Search"
+        />
+    </span>
+    <button
+        pButton
+        pRipple
+        (click)="downloadInventoryPdf()"
+        icon="pi pi-print"
+        type="button"
+        label="Print Inventory List"
+        class="p-button-raised p-button-info mr-5 ml-5"
+        [style]=""
+    ></button>
+    <hr />
+    <p-table
+        [value]="filteredProducts"
+        dataKey="id"
+        editMode="row"
+        [tableStyle]="{ 'min-width': '50rem' }"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Supplier</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template
+            pTemplate="body"
+            let-product
+            let-editing="editing"
+            let-ri="rowIndex"
+        >
+            <tr [pEditableRow]="product">
+                <td>
+                    {{ product.productId }}
+                </td>
+                <td>
+                    <strong>{{ product.name }}</strong>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber
+                                [(ngModel)]="product.stockQuantity"
+                                [showButtons]="true"
+                                buttonLayout="horizontal"
+                                inputId="horizontal"
+                                spinnerMode="horizontal"
+                                [step]="1"
+                                decrementButtonClass="p-button-danger"
+                                incrementButtonClass="p-button-success"
+                                incrementButtonIcon="pi pi-plus"
+                                decrementButtonIcon="pi pi-minus"
+                                mode="decimal"
+                            >
+                            </p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <strong> {{ product.stockQuantity }}</strong>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    {{ product.supplierIds }}
+                </td>
+                <td>
+                    <div
+                        class="flex align-items-center justify-content-center gap-2"
+                    >
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pInitEditableRow
+                            icon="pi pi-pencil"
+                            (click)="onRowEditInit(product)"
+                            class="p-button-rounded p-button-text"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pSaveEditableRow
+                            icon="pi pi-check"
+                            (click)="onRowEditSave(product)"
+                            class="p-button-rounded p-button-text p-button-success mr-2"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pCancelEditableRow
+                            icon="pi pi-times"
+                            (click)="onRowEditCancel(product, ri)"
+                            class="p-button-rounded p-button-text p-button-danger"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>

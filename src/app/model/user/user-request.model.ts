@@ -1,5 +1,3 @@
-// user-request.model.ts
-
 export interface UserRequest {
     username: string;
     password: string;

@@ -1,4 +1,3 @@
-// voucher-response.model.ts
 export interface VoucherResponse {
     voucherID: number;
     voucherCode: string;

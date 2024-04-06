@@ -61,7 +61,8 @@ import { ReportComponent } from './pages/report/report.component';
         PrintBarcodeComponent,
         PrintInvoiceComponent,
         InvoiceReturnComponent,
-        ReportComponent
+        ReportComponent,
+        InvoiceReturnComponent
     ],
 
     imports: [

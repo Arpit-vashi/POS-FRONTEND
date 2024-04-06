@@ -1,161 +1,367 @@
-<app-pdf-generator [tableData]="suppliers" fileName="Supplier_List"></app-pdf-generator>
+<app-pdf-generator
+    [tableData]="suppliers"
+    fileName="Supplier_List"
+></app-pdf-generator>
 <div class="card">
-  <h5><strong>Add Supplier</strong></h5>
-  <hr>
-  <form [formGroup]="supplierForm" (ngSubmit)="saveSupplier()">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="supplierAgency" class="block"><strong>Supplier Agency Name*</strong></label>
-        <input type="text" pInputText formControlName="supplierAgency" class="mr-5">
-        <small *ngIf="supplierForm.controls['supplierAgency'].touched && supplierForm.controls['supplierAgency'].errors?.['required']" class="p-error">Supplier Agency Name is required.</small>
-      </div>
-      <div class="form-group">
-        <label for="supplierPhone" class="block"><strong>Supplier Agency Phone*</strong></label>
-        <input type="tel" pInputText formControlName="supplierPhone"  class="mr-5">
-        <small *ngIf="supplierForm.controls['supplierPhone'].touched && supplierForm.controls['supplierPhone'].errors?.['required']" class="p-error">Supplier Agency Phone is required.</small>
-        <small *ngIf="supplierForm.controls['supplierPhone'].touched && supplierForm.controls['supplierPhone'].errors?.['pattern']" class="p-error">Invalid phone number (10 digits required).</small>
-      </div>
-      <div class="form-group">
-        <label for="supplierEmail" class="block"><strong>Supplier Agency Email*</strong></label>
-        <input type="email" pInputText formControlName="supplierEmail" class="mr-5">
-        <small *ngIf="supplierForm.controls['supplierEmail'].touched && supplierForm.controls['supplierEmail'].errors?.['required']" class="p-error">Supplier Agency Email is required.</small>
-        <small *ngIf="supplierForm.controls['supplierEmail'].touched && supplierForm.controls['supplierEmail'].errors?.['email']" class="p-error">Invalid email format.</small>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group mt-3">
-        <label for="contactPerson" class="block"><strong>Contact Person Name*</strong></label>
-        <input type="text" pInputText formControlName="contactPerson" class="mr-5">
-        <small *ngIf="supplierForm.controls['contactPerson'].touched && supplierForm.controls['contactPerson'].errors?.['required']" class="p-error">Contact Person Name is required.</small>
-      </div>
-      <div class="form-group mt-3">
-        <label for="contactPersonPhone" class="block"><strong>Contact Person Phone*</strong></label>
-        <input type="tel" pInputText formControlName="contactPersonPhone" class="mr-5">
-        <small *ngIf="supplierForm.controls['contactPersonPhone'].touched && supplierForm.controls['contactPersonPhone'].errors?.['required']" class="p-error">Contact Person Phone is required.</small>
-        <small *ngIf="supplierForm.controls['contactPersonPhone'].touched && supplierForm.controls['contactPersonPhone'].errors?.['pattern']" class="p-error">Invalid phone number (10 digits required).</small>
-      </div>
-      <div class="form-group mt-3">
-        <label for="contactPersonEmail" class="block"><strong>Contact Person Email*</strong></label>
-        <input type="email" pInputText formControlName="contactPersonEmail" class="mr-5">
-        <small *ngIf="supplierForm.controls['contactPersonEmail'].touched && supplierForm.controls['contactPersonEmail'].errors?.['required']" class="p-error">Contact Person Email is required.</small>
-        <small *ngIf="supplierForm.controls['contactPersonEmail'].touched && supplierForm.controls['contactPersonEmail'].errors?.['email']" class="p-error">Invalid email format.</small>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group mt-3">
-        <label for="Address" class="block"><strong>Supplier Address*</strong></label>
-        <input type="text" pInputText formControlName="address" class="mr-5">
-        <small *ngIf="supplierForm.controls['address'].touched && supplierForm.controls['address'].errors?.['required']" class="p-error">Supplier Address is required.</small>
-      </div>
-    </div>
-    <button pButton pRipple type="submit" icon="pi pi-plus" label="Add Supplier" [style]="{'min-width': '18.3%'}" class="mt-3 p-button-raised p-button-success mr-5 mt-3" [disabled]="!supplierForm.valid"></button>
-    <button pButton pRipple (click)="resetForm()" [style]="{'min-width': '18.3%'}" icon="pi pi-undo" type="button" label="Clear Form" class="mt-3 p-button-raised p-button-danger add"></button>
-    <button pButton pRipple (click)="downloadPdf()" type="button" [style]="{'min-width': '18.3%'}" label="Print Supplier-List" icon="pi pi-print" class="mt-3 p-button-raised p-button-info"></button>
-  </form>
-  <hr>
-  <h5><strong>Add Supplier with CSV</strong></h5>
-  <p-fileUpload #uploader mode="basic" name="demo[]" (onSelect)="onUpload($event)" accept=".csv" maxFileSize="1000000" [auto]="true" chooseLabel="Browse"></p-fileUpload>
+    <h5><strong>Add Supplier</strong></h5>
+    <hr />
+    <form [formGroup]="supplierForm" (ngSubmit)="saveSupplier()">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="supplierAgency" class="block"
+                    ><strong>Supplier Agency Name*</strong></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="supplierAgency"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="supplierForm.controls['supplierAgency'].touched && supplierForm.controls['supplierAgency'].errors?.['required']"
+                    class="p-error"
+                    >Supplier Agency Name is required.</small
+                >
+            </div>
+            <div class="form-group">
+                <label for="supplierPhone" class="block"
+                    ><strong>Supplier Agency Phone*</strong></label
+                >
+                <input
+                    type="tel"
+                    pInputText
+                    formControlName="supplierPhone"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="supplierForm.controls['supplierPhone'].touched && supplierForm.controls['supplierPhone'].errors?.['required']"
+                    class="p-error"
+                    >Supplier Agency Phone is required.</small
+                >
+                <small
+                    *ngIf="supplierForm.controls['supplierPhone'].touched && supplierForm.controls['supplierPhone'].errors?.['pattern']"
+                    class="p-error"
+                    >Invalid phone number (10 digits required).</small
+                >
+            </div>
+            <div class="form-group">
+                <label for="supplierEmail" class="block"
+                    ><strong>Supplier Agency Email*</strong></label
+                >
+                <input
+                    type="email"
+                    pInputText
+                    formControlName="supplierEmail"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="supplierForm.controls['supplierEmail'].touched && supplierForm.controls['supplierEmail'].errors?.['required']"
+                    class="p-error"
+                    >Supplier Agency Email is required.</small
+                >
+                <small
+                    *ngIf="supplierForm.controls['supplierEmail'].touched && supplierForm.controls['supplierEmail'].errors?.['email']"
+                    class="p-error"
+                    >Invalid email format.</small
+                >
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group mt-3">
+                <label for="contactPerson" class="block"
+                    ><strong>Contact Person Name*</strong></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="contactPerson"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="supplierForm.controls['contactPerson'].touched && supplierForm.controls['contactPerson'].errors?.['required']"
+                    class="p-error"
+                    >Contact Person Name is required.</small
+                >
+            </div>
+            <div class="form-group mt-3">
+                <label for="contactPersonPhone" class="block"
+                    ><strong>Contact Person Phone*</strong></label
+                >
+                <input
+                    type="tel"
+                    pInputText
+                    formControlName="contactPersonPhone"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="supplierForm.controls['contactPersonPhone'].touched && supplierForm.controls['contactPersonPhone'].errors?.['required']"
+                    class="p-error"
+                    >Contact Person Phone is required.</small
+                >
+                <small
+                    *ngIf="supplierForm.controls['contactPersonPhone'].touched && supplierForm.controls['contactPersonPhone'].errors?.['pattern']"
+                    class="p-error"
+                    >Invalid phone number (10 digits required).</small
+                >
+            </div>
+            <div class="form-group mt-3">
+                <label for="contactPersonEmail" class="block"
+                    ><strong>Contact Person Email*</strong></label
+                >
+                <input
+                    type="email"
+                    pInputText
+                    formControlName="contactPersonEmail"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="supplierForm.controls['contactPersonEmail'].touched && supplierForm.controls['contactPersonEmail'].errors?.['required']"
+                    class="p-error"
+                    >Contact Person Email is required.</small
+                >
+                <small
+                    *ngIf="supplierForm.controls['contactPersonEmail'].touched && supplierForm.controls['contactPersonEmail'].errors?.['email']"
+                    class="p-error"
+                    >Invalid email format.</small
+                >
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group mt-3">
+                <label for="Address" class="block"
+                    ><strong>Supplier Address*</strong></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="address"
+                    class="mr-5"
+                />
+                <small
+                    *ngIf="supplierForm.controls['address'].touched && supplierForm.controls['address'].errors?.['required']"
+                    class="p-error"
+                    >Supplier Address is required.</small
+                >
+            </div>
+        </div>
+        <button
+            pButton
+            pRipple
+            type="submit"
+            icon="pi pi-plus"
+            label="Add Supplier"
+            [style]="{ 'min-width': '18.3%' }"
+            class="mt-3 p-button-raised p-button-success mr-5 mt-3"
+            [disabled]="!supplierForm.valid"
+        ></button>
+        <button
+            pButton
+            pRipple
+            (click)="resetForm()"
+            [style]="{ 'min-width': '18.3%' }"
+            icon="pi pi-undo"
+            type="button"
+            label="Clear Form"
+            class="mt-3 p-button-raised p-button-danger add"
+        ></button>
+        <button
+            pButton
+            pRipple
+            (click)="downloadPdf()"
+            type="button"
+            [style]="{ 'min-width': '18.3%' }"
+            label="Print Supplier-List"
+            icon="pi pi-print"
+            class="mt-3 p-button-raised p-button-info"
+        ></button>
+    </form>
+    <hr />
+    <h5><strong>Add Supplier with CSV</strong></h5>
+    <p-fileUpload
+        #uploader
+        mode="basic"
+        name="demo[]"
+        (onSelect)="onUpload($event)"
+        accept=".csv"
+        maxFileSize="1000000"
+        [auto]="true"
+        chooseLabel="Browse"
+    ></p-fileUpload>
 </div>
-<hr>
+<hr />
 <div class="card">
     <h5><strong>Supplier List</strong></h5>
-    <p-table [value]="suppliers" dataKey="supplierID" editMode="row" [tableStyle]="{'min-width': '50rem'}">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width:20%">ID</th>
-          <th style="width:20%">Supplier Agency</th>
-          <th style="width:20%">Supplier Phone</th>
-          <th style="width:20%">Supplier Email</th>
-          <th style="width:20%">Contact Person</th>
-          <th style="width:20%">Contact Person Email</th>
-          <th style="width:20%">Contact Person Phone</th>
-          <th style="width:20%">Address</th>
-          <th style="width:20%">Action</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-supplier let-editing="editing" let-ri="rowIndex">
-        <tr [pEditableRow]="supplier">
-          <td>{{ supplier.supplierID }}</td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="supplier.supplierAgency">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ supplier.supplierAgency }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="supplier.supplierPhone">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ supplier.supplierPhone }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="email" [(ngModel)]="supplier.supplierEmail">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ supplier.supplierEmail }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="tel" [(ngModel)]="supplier.contactPerson">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ supplier.contactPerson }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="email" [(ngModel)]="supplier.contactPersonEmail">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ supplier.contactPersonEmail }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="tel" [(ngModel)]="supplier.contactPersonPhone">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ supplier.contactPersonPhone }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="supplier.address">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ supplier.address }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <div class="flex align-items-center justify-content-center gap-2">
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(supplier)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(supplier)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(supplier, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
-              <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteSupplier(supplier.supplierID)" class="p-button-rounded p-button-text p-button-danger"></button>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
+    <p-table
+        [value]="suppliers"
+        dataKey="supplierID"
+        editMode="row"
+        [tableStyle]="{ 'min-width': '50rem' }"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 20%">ID</th>
+                <th style="width: 20%">Supplier Agency</th>
+                <th style="width: 20%">Supplier Phone</th>
+                <th style="width: 20%">Supplier Email</th>
+                <th style="width: 20%">Contact Person</th>
+                <th style="width: 20%">Contact Person Email</th>
+                <th style="width: 20%">Contact Person Phone</th>
+                <th style="width: 20%">Address</th>
+                <th style="width: 20%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template
+            pTemplate="body"
+            let-supplier
+            let-editing="editing"
+            let-ri="rowIndex"
+        >
+            <tr [pEditableRow]="supplier">
+                <td>{{ supplier.supplierID }}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="supplier.supplierAgency"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ supplier.supplierAgency }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="supplier.supplierPhone"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ supplier.supplierPhone }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="email"
+                                [(ngModel)]="supplier.supplierEmail"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ supplier.supplierEmail }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="tel"
+                                [(ngModel)]="supplier.contactPerson"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ supplier.contactPerson }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="email"
+                                [(ngModel)]="supplier.contactPersonEmail"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ supplier.contactPersonEmail }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="tel"
+                                [(ngModel)]="supplier.contactPersonPhone"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ supplier.contactPersonPhone }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="supplier.address"
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ supplier.address }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <div
+                        class="flex align-items-center justify-content-center gap-2"
+                    >
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pInitEditableRow
+                            icon="pi pi-pencil"
+                            (click)="onRowEditInit(supplier)"
+                            class="p-button-rounded p-button-text"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pSaveEditableRow
+                            icon="pi pi-check"
+                            (click)="onRowEditSave(supplier)"
+                            class="p-button-rounded p-button-text p-button-success mr-2"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pCancelEditableRow
+                            icon="pi pi-times"
+                            (click)="onRowEditCancel(supplier, ri)"
+                            class="p-button-rounded p-button-text p-button-danger"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-trash"
+                            (click)="deleteSupplier(supplier.supplierID)"
+                            class="p-button-rounded p-button-text p-button-danger"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
     </p-table>
 </div>
 <p-toast></p-toast>
