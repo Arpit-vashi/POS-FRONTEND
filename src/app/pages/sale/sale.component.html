@@ -2,6 +2,9 @@
     [invoiceData]="finalInvoiceData"
     fileName="Invoice_List"
 ></app-print-invoice>
+<div class="card cen" *ngIf="latestAnnouncement">
+    <p><strong>Announcement:</strong><strong style="color: red;">{{ latestAnnouncement?.message }}</strong></p>
+</div>
 <div class="card">
     <div id="Top-Bar">
         <div class="invoice-id">

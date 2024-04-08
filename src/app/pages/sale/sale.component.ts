@@ -13,6 +13,8 @@ import { ProductResponse } from '../../model/product/product-response.model';
 import { CustomerResponse } from '../../model/customer/customer-response.model';
 import { InvoiceResponse } from '../../model/invoice/invoice-response.model';
 import { VoucherRequest } from 'src/app/model/voucher/voucher-request.model';
+import { NotificationService } from '../../service/notification.service';
+import { NotificationResponse } from '../../model/notification/notification-response.model';
 
 @Component({
     selector: 'app-sale',
@@ -59,6 +61,7 @@ export class SaleComponent implements OnInit, OnDestroy {
     v: VoucherRequest;
     vId: number;
     finalInvoiceData: any;
+    latestAnnouncement: NotificationResponse | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -68,7 +71,8 @@ export class SaleComponent implements OnInit, OnDestroy {
         private router: Router,
         private productService: ProductService,
         private messageService: MessageService,
-        private voucherService: VoucherService
+        private voucherService: VoucherService,
+        private notificationService: NotificationService
     ) {}
 
     ngOnInit() {
@@ -83,6 +87,7 @@ export class SaleComponent implements OnInit, OnDestroy {
         this.originalTotalPrice = this.totalPrice;
         this.originalTotalTax = this.totalTax;
         this.originalOverallTotal = this.overallTotal;
+        this.fetchNotifications();
     }
 
     ngOnDestroy() {
@@ -140,14 +145,16 @@ export class SaleComponent implements OnInit, OnDestroy {
 
     getAllProducts() {
         this.productService.getAllProducts().subscribe(
-            (products) => {
-                this.products = products;
-            },
-            (error) => {
-                console.error('Error fetching products:', error);
-            }
+          (products) => {
+            this.products = products.filter(product => product.stockQuantity > 0);
+            console.log(products)
+          },
+          (error) => {
+            console.error('Error fetching products:', error);
+          }
         );
-    }
+      }
+      
 
     updateDateTime() {
         this.timeInterval = setInterval(() => {
@@ -249,20 +256,32 @@ export class SaleComponent implements OnInit, OnDestroy {
     }
 
     addToCart(product?: ProductResponse) {
+        if (!product) return;
+    
         const existingProductIndex = this.productsInCart.findIndex(
             (p) => p.productId === product.productId
         );
+    
         if (existingProductIndex !== -1) {
-            this.productsInCart[existingProductIndex].quantity++;
+            const existingProduct = this.productsInCart[existingProductIndex];
+            if (existingProduct.quantity + 1 > product.stockQuantity) {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: 'Stock limit reached',
+                    detail: `You cannot add more of ${product.name} to the cart.`,
+                });
+                return;
+            }
+            existingProduct.quantity++;
             this.recalculateCartTotals();
         } else {
             product.quantity = 1;
             this.productsInCart.push(product);
-            this.originalTotalPrice = +product.total;
+            this.recalculateCartTotals();
         }
         this.saveCartToLocalStorage();
     }
-
+    
     clearCart() {
         this.productsInCart = [];
         localStorage.removeItem('cart');
@@ -532,5 +551,17 @@ export class SaleComponent implements OnInit, OnDestroy {
             this.finalInvoiceData = { ...invoiceData, cartData: cartData };
             this.submitForm();
         }
+    }
+
+    fetchNotifications(): void {
+        this.notificationService.getAllNotifications().subscribe(
+            notifications => {
+                this.latestAnnouncement = notifications.sort((a, b) => b.notificationID - a.notificationID)[0] || null;
+                console.log(this.latestAnnouncement)
+            },
+            error => {
+                console.error('Error fetching notifications:', error);
+            }
+        );
     }
 }
