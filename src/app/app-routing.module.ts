@@ -16,31 +16,111 @@ import { PrintBarcodeComponent } from './pages/print-barcode/print-barcode.compo
 import { SaleComponent } from './pages/sale/sale.component';
 import { InvoiceReturnComponent } from './pages/invoice-return/invoice-return.component';
 import { ReportComponent } from './pages/report/report.component';
+import { LoginComponent } from './pages/login/login.component';
+import { authGuard } from '../app/service/auth.guard';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 @NgModule({
     imports: [
         RouterModule.forRoot(
             [
+                { path: '', component: LoginComponent, pathMatch: 'full' },
+                { path: 'login', component: LoginComponent },
                 {
                     path: '',
                     component: AppLayoutComponent,
                     children: [
-                        { path: '', component:  SaleComponent},
-                        {path: 'supplier', component: SupplierComponent},
-                        {path: 'voucher', component: VoucherComponent},
-                        {path: 'customer', component: CustomerComponent},
-                        {path: 'product', component: ProductComponent},
-                        {path: 'purchase-order', component: PurchaseOrderComponent},
-                        {path: 'inventory', component: InventoryComponent},
-                        {path: 'invoice', component: InvoiceComponent},
-                        {path: 'excel', component: ExcelConverterComponent},
-                        {path: 'csv', component: CsvConverterComponent},
-                        {path: 'user', component: UserComponent},
-                        {path: 'print-Barcode', component: PrintBarcodeComponent},
-                        {path: 'return', component: InvoiceReturnComponent},
-                        {path: 'admin-dashboard', component: ReportComponent},
-
-                    ],   
+                        {
+                            path: 'sale',
+                            component: SaleComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN', 'CASHIER'] }
+                        },
+                        {
+                            path: 'supplier',
+                            component: SupplierComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'voucher',
+                            component: VoucherComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'customer',
+                            component: CustomerComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN', 'CASHIER'] }
+                        },
+                        {
+                            path: 'product',
+                            component: ProductComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'purchase-order',
+                            component: PurchaseOrderComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'inventory',
+                            component: InventoryComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN', 'CASHIER'] }
+                        },
+                        {
+                            path: 'invoice',
+                            component: InvoiceComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN', 'CASHIER'] }
+                        },
+                        {
+                            path: 'excel',
+                            component: ExcelConverterComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'csv',
+                            component: CsvConverterComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'user',
+                            component: UserComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'print-Barcode',
+                            component: PrintBarcodeComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN'] }
+                        },
+                        {
+                            path: 'return',
+                            component: InvoiceReturnComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN', 'CASHIER'] }
+                        },
+                        {
+                            path: 'admin-dashboard',
+                            component: ReportComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['ADMIN'] }
+                        },
+                        {
+                            path: 'my-profile',
+                            component: UserProfileComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER', 'ADMIN', 'CASHIER'] }
+                        },
+                    ],
                 },
                 { path: 'notfound', component: NotfoundComponent },
                 { path: '**', redirectTo: '/notfound' },

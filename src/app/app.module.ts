@@ -18,7 +18,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SupplierComponent } from './pages/supplier/supplier.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { VoucherComponent } from './pages/voucher/voucher.component';
 import { CustomerComponent } from './pages/customer/customer.component';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -41,9 +41,16 @@ import { DatePipe } from '@angular/common';
 import { PrintInvoiceComponent } from './pages/print-invoice/print-invoice.component';
 import { InvoiceReturnComponent } from './pages/invoice-return/invoice-return.component';
 import { ReportComponent } from './pages/report/report.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthInterceptor } from './service/auth.interceptor';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { CardModule } from 'primeng/card';
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
     declarations: [
+        LoginComponent,
         SaleComponent,
         PdfGeneratorComponent,
         UserComponent,
@@ -62,10 +69,12 @@ import { ReportComponent } from './pages/report/report.component';
         PrintInvoiceComponent,
         InvoiceReturnComponent,
         ReportComponent,
-        InvoiceReturnComponent
+        InvoiceReturnComponent,
+        UserProfileComponent
     ],
 
     imports: [
+        SplitButtonModule,
         BrowserModule,
         BadgeModule,
         MultiSelectModule,
@@ -88,12 +97,19 @@ import { ReportComponent } from './pages/report/report.component';
         InputTextModule,
         AppRoutingModule,
         AppLayoutModule,
+        CardModule,
+    AvatarModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         MessageService,
         ConfirmationService,
         DatePipe,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent],
 })

@@ -17,9 +17,9 @@ export class UserComponent implements OnInit {
     @ViewChild(PdfGeneratorComponent) pdfGenerator: PdfGeneratorComponent;
     userForm: FormGroup;
     roles = [
-        { label: 'Admin', value: 'Admin' },
-        { label: 'Manager', value: 'Manager' },
-        { label: 'Cashier', value: 'Cashier' },
+        { label: 'Admin', value: 'ADMIN' },
+        { label: 'Manager', value: 'MANAGER' },
+        { label: 'Cashier', value: 'CASHIER' },
     ];
     selectedRole: string;
     users: UserResponse[];

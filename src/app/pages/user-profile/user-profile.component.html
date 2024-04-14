@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="card">
+      <div class="profile-picture" style="border: solid 1px skyblue;">
+        <img src="../../../assets/admin.webp" alt="Profile Picture">
+      </div>
+      <h2 class="name">Name: {{ name }}</h2>
+      <h3 class="username">Username: {{ username }}</h3>
+      <p class="tagline">Email: {{ email }}</p>
+      <p class="description" style="color: red;">Role: {{ roles }}</p>
+      <button pButton pRipple type="button" icon="pi pi-sign-out" label="Log Out" class="p-button-raised p-button-danger" (click)="logout()"></button>
+    </div>
+</div>

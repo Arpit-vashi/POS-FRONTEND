@@ -3,7 +3,7 @@
     fileName="Users_List"
 ></app-pdf-generator>
 <div class="card">
-    <h5><strong>Add User</strong></h5>
+    <!-- <h5><strong>Add User</strong></h5>
     <hr />
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
@@ -201,7 +201,7 @@
         </div>
     </form>
 </div>
-<hr />
+<hr /> -->
 <div class="card">
     <h5><strong>User List</strong></h5>
     <p-toast></p-toast>
@@ -220,7 +220,6 @@
                     <th style="width: 20%">Full Name</th>
                     <th style="width: 20%">Email</th>
                     <th style="width: 20%">Phone</th>
-                    <th style="width: 20%">Role</th>
                     <th style="width: 20%">Actions</th>
                 </tr>
             </ng-template>
@@ -260,7 +259,7 @@
                             </ng-template>
                         </p-cellEditor>
                     </td>
-                    <td>
+                    <!-- <td>
                         <p-cellEditor>
                             <ng-template pTemplate="input">
                                 <p-dropdown
@@ -272,7 +271,7 @@
                                 {{ user.role }}
                             </ng-template>
                         </p-cellEditor>
-                    </td>
+                    </td> -->
                     <td>
                         <div
                             class="flex align-items-center justify-content-center gap-2"

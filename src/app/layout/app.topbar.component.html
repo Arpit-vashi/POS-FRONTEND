@@ -1,25 +1,51 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img width="40" height="30" src="https://img.icons8.com/ios/50/impossible-shapes.png" alt="impossible-shapes"/>
+        <img
+            width="40"
+            height="30"
+            src="https://img.icons8.com/ios/50/impossible-shapes.png"
+            alt="impossible-shapes"
+        />
         <span><strong>POS</strong></span>
     </a>
 
-    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+    <button
+        #menubutton
+        class="p-link layout-menu-button layout-topbar-button"
+        (click)="layoutService.onMenuToggle()"
+    >
         <i class="pi pi-bars"></i>
     </button>
 
-    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+    <button
+        #topbarmenubutton
+        class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="layoutService.showProfileSidebar()"
+    >
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
-    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
+    <div
+        #topbarmenu
+        class="layout-topbar-menu"
+        [ngClass]="{
+            'layout-topbar-menu-mobile-active':
+                layoutService.state.profileSidebarVisible
+        }"
+    >
+    
+        <button
+            class="p-link layout-topbar-button"
+            [routerLink]="'/documentation'"
+        >
+            <i class="pi pi pi-user"></i>
             <span>Profile</span>
         </button>
-        <!-- <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button> -->
+        
+        <button class="p-link layout-topbar-button" (click)="logout()">
+            <i class="pi pi-sign-out"></i>
+            <span>Sign Out</span>
+        </button>
+        <p style="display: flex; justify-content: center; align-items: center;">{{username}}</p>
     </div>
 </div>

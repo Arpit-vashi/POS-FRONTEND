@@ -1,0 +1,21 @@
+<div class="main">
+    <div class="login-container">
+      
+      <form class="login-form" (submit)="onSubmit($event)">
+        <h2><strong>POS - Login</strong></h2>
+        <hr>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    
+  </div>
+  <p style="display: flex; justify-content: center; align-items: center;">Note: Incase you forgot password contact admin</p>
+  <p-toast></p-toast>
