@@ -19,13 +19,14 @@ import { ReportComponent } from './pages/report/report.component';
 import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from '../app/service/auth.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { LoginGuard } from '../app/service/login.guard';
 
 @NgModule({
     imports: [
         RouterModule.forRoot(
             [
-                { path: '', component: LoginComponent, pathMatch: 'full' },
-                { path: 'login', component: LoginComponent },
+                { path: '', component: LoginComponent, pathMatch: 'full',  canActivate: [LoginGuard]  },
+                { path: 'login', component: LoginComponent,  canActivate: [LoginGuard]  },
                 {
                     path: '',
                     component: AppLayoutComponent,
