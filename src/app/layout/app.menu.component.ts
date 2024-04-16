@@ -191,9 +191,20 @@ export class AppMenuComponent implements OnInit {
                                     ],
                                 },
                                 {
-                                    label: 'User',
-                                    icon: 'pi pi-fw pi-id-card',
-                                    routerLink: ['/user'],
+                                    label: 'Manage Users',
+                                    icon: 'pi pi-fw pi-users',
+                                    items: [
+                                        {
+                                            label: 'User',
+                                            icon: 'pi pi-fw pi-id-card',
+                                            routerLink: ['/user'],
+                                        },
+                                        {
+                                            label: 'Reset Password',
+                                            icon: 'pi pi-fw pi-unlock',
+                                            routerLink: ['/reset-password'],
+                                        },
+                                    ],
                                 },
                                 {
                                     label: 'Utils',
@@ -293,7 +304,7 @@ export class AppMenuComponent implements OnInit {
                         {
                             label: 'User',
                             icon: 'pi pi-fw pi-id-card',
-                            routerLink: ['/user'],
+                            routerLink: ['/user-list'],
                         },
                         {
                             label: 'Utils',
@@ -309,12 +320,13 @@ export class AppMenuComponent implements OnInit {
                                     icon: 'pi pi-fw pi-file',
                                     routerLink: ['/csv'],
                                 },
-                                {
-                                    label: 'My Profile',
-                                    icon: 'pi pi-fw pi-user',
-                                    routerLink: ['/my-profile'],
-                                },
                             ],
+                            
+                        },
+                        {
+                            label: 'My Profile',
+                            icon: 'pi pi-fw pi-user',
+                            routerLink: ['/my-profile'],
                         },
                     ],
                 },

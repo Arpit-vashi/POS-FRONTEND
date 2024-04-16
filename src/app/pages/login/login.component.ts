@@ -53,6 +53,7 @@ export class LoginComponent {
         localStorage.setItem('name', response.name);
         localStorage.setItem('roles', response.roles.join(', '));
         localStorage.setItem('username', response.username);
+        localStorage.setItem('userID', response.userID);
         this.redirectUser(response.roles.join(', '));
     }
 

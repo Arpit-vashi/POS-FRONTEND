@@ -47,9 +47,13 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 @NgModule({
     declarations: [
+        UserListComponent,
         LoginComponent,
         SaleComponent,
         PdfGeneratorComponent,
@@ -70,10 +74,12 @@ import { AvatarModule } from 'primeng/avatar';
         InvoiceReturnComponent,
         ReportComponent,
         InvoiceReturnComponent,
-        UserProfileComponent
+        UserProfileComponent,
+        ChangePasswordComponent
     ],
 
     imports: [
+        ConfirmPopupModule,
         SplitButtonModule,
         BrowserModule,
         BadgeModule,

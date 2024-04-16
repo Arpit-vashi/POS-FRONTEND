@@ -20,6 +20,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from '../app/service/auth.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { LoginGuard } from '../app/service/login.guard';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 @NgModule({
     imports: [
@@ -95,7 +97,13 @@ import { LoginGuard } from '../app/service/login.guard';
                             path: 'user',
                             component: UserComponent,
                             canActivate: [authGuard],
-                            data: { roles: ['MANAGER', 'ADMIN'] }
+                            data: { roles: ['ADMIN'] }
+                        },
+                        {
+                            path: 'user-list',
+                            component: UserListComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['MANAGER'] }
                         },
                         {
                             path: 'print-Barcode',
@@ -112,6 +120,12 @@ import { LoginGuard } from '../app/service/login.guard';
                         {
                             path: 'admin-dashboard',
                             component: ReportComponent,
+                            canActivate: [authGuard],
+                            data: { roles: ['ADMIN'] }
+                        },
+                        {
+                            path: 'reset-password',
+                            component: ChangePasswordComponent,
                             canActivate: [authGuard],
                             data: { roles: ['ADMIN'] }
                         },

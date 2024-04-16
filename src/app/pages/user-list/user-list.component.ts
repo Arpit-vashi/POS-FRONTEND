@@ -7,13 +7,12 @@ import { UserResponse } from '../../model/user/user-response.model';
 import { RoleResponse } from '../../model/role/role-response.model';
 import { MessageService } from 'primeng/api';
 import { PdfGeneratorComponent } from '../pdf-generator/pdf-generator.component';
-
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.scss'
 })
-export class UserComponent implements OnInit {
+export class UserListComponent implements OnInit{
   @ViewChild(PdfGeneratorComponent) pdfGenerator: PdfGeneratorComponent;
   userForm: FormGroup;
   roles: RoleResponse[];
@@ -180,4 +179,5 @@ selectedRole: any;
     this.pdfGenerator.fileName = 'User_List';
     this.pdfGenerator.generatePDF();
   }
+
 }

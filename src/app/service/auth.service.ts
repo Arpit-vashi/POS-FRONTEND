@@ -36,6 +36,7 @@ export class AuthService {
           localStorage.setItem('name', response.name);
           localStorage.setItem('roles', response.roles.join(', '));
           localStorage.setItem('username', response.username);
+          localStorage.setItem('userId', response.userID);
           this.isLoggedInSubject.next(true); // Update the login status
         }
       }),

@@ -134,34 +134,27 @@
                 </div>
             </div>
         </div>
+        
         <div class="form-row">
-            <div class="form-group mt-3" [style]="{ 'min-width': '18%' }">
+            <div class="form-group mt-3" [style]="{ 'min-width': '21%' }">
                 <label for="role"><strong>Role*</strong></label>
                 <p-dropdown
+                [style]="{ 'min-width': '100%' }"
                     [options]="roles"
-                    class=""
-                    [style]="{ 'min-width': '100%' }"
+                    optionLabel="roleName"
                     [(ngModel)]="selectedRole"
+                    (onChange)="userForm.get('role').setValue($event.value)"
                     placeholder="Select a Role"
-                    optionLabel="label"
-                    formControlName="role"
-                    [showClear]="true"
+                    formControlName="role">
                 ></p-dropdown>
-                <div
-                    *ngIf="
-                        userForm.get('role').invalid &&
-                        (userForm.get('role').dirty ||
-                            userForm.get('role').touched)
-                    "
-                >
-                    <div *ngIf="userForm.get('role').errors?.required">
-                        Role is required.
-                    </div>
+                <div *ngIf="userForm.get('role').touched && userForm.get('role').errors?.['required']">
+                    Role is required.
                 </div>
             </div>
         </div>
+
         <div class="form-row">
-            <div class="form-group mr-5 mt-3" [style]="{ 'min-width': '18%' }">
+            <div class="form-group mr-5 mt-3" [style]="{ 'min-width': '21%' }">
                 <button
                     pButton
                     pRipple
@@ -173,7 +166,7 @@
                     [disabled]="!userForm.valid"
                 ></button>
             </div>
-            <div class="form-group mt-3" [style]="{ 'min-width': '21%' }">
+            <div class="form-group mt-3" [style]="{ 'min-width': '24%' }">
                 <button
                     pButton
                     pRipple
@@ -186,7 +179,7 @@
                     class="p-button-raised p-button-danger add"
                 ></button>
             </div>
-            <div class="form-group mr-5 mt-3" [style]="{ 'min-width': '18%' }">
+            <div class="form-group mr-5 mt-3" [style]="{ 'min-width': '21%' }">
                 <button
                     pButton
                     pRipple
@@ -219,6 +212,7 @@
                     <th style="width: 20%">Full Name</th>
                     <th style="width: 20%">Email</th>
                     <th style="width: 20%">Phone</th>
+                    <th style="width: 20%">Role</th>
                     <th style="width: 20%">Actions</th>
                 </tr>
             </ng-template>
@@ -227,7 +221,7 @@
                     <td>{{ user.userID }}</td>
                     <td>{{ user.username }}</td>
                     <td>
-                        <p-cellEditor>
+                        <!-- <p-cellEditor>
                             <ng-template pTemplate="input">
                                 <input
                                     pInputText
@@ -236,16 +230,16 @@
                                     required
                                 />
                             </ng-template>
-                            <ng-template pTemplate="output">
+                            <ng-template pTemplate="output"> -->
                                 {{ user.name }}
-                            </ng-template>
-                        </p-cellEditor>
+                            <!-- </ng-template>
+                        </p-cellEditor> -->
                     </td>
                     <td>
                         {{ user.email }}
                     </td>
                     <td>
-                        <p-cellEditor>
+                        <!-- <p-cellEditor>
                             <ng-template pTemplate="input">
                                 <input
                                     pInputText
@@ -253,29 +247,30 @@
                                     [(ngModel)]="user.phone"
                                 />
                             </ng-template>
-                            <ng-template pTemplate="output">
+                            <ng-template pTemplate="output"> -->
                                 {{ user.phone }}
-                            </ng-template>
-                        </p-cellEditor>
+                            <!-- </ng-template>
+                        </p-cellEditor> -->
                     </td>
-                    <!-- <td>
-                        <p-cellEditor>
+                    <td>
+                        <!-- <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <p-dropdown
-                                    [options]="roles"
-                                    [(ngModel)]="user.role"
-                                ></p-dropdown>
+                                <p-dropdown [options]="roles" optionLabel="roleName" [(ngModel)]="user.role"></p-dropdown>
                             </ng-template>
                             <ng-template pTemplate="output">
-                                {{ user.role }}
+                                <ng-container *ngIf="user.role"> -->
+                                    {{user.roles[0].roleName}}
+                                <!-- </ng-container>
                             </ng-template>
-                        </p-cellEditor>
-                    </td> -->
+                        </p-cellEditor> -->
+                    </td>
+                    
+                    
                     <td>
                         <div
                             class="flex align-items-center justify-content-center gap-2"
                         >
-                            <button
+                            <!-- <button
                                 *ngIf="!editing"
                                 pButton
                                 pRipple
@@ -304,7 +299,7 @@
                                 icon="pi pi-times"
                                 (click)="onRowEditCancel(user)"
                                 class="p-button-rounded p-button-text p-button-danger"
-                            ></button>
+                            ></button> -->
                             <button
                                 pButton
                                 pRipple
