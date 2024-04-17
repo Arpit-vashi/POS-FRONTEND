@@ -30,8 +30,6 @@ export class SaleComponent implements OnInit, OnDestroy {
     ];
     statusOptions = [
         { label: 'Paid', value: 'Paid' },
-        { label: 'SemiPaid', value: 'SemiPaid' },
-        { label: 'Unpaid', value: 'Unpaid' },
     ];
     selectedStatus: { lable; value };
     productId: number;

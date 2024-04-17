@@ -7,6 +7,7 @@ import autoTable from 'jspdf-autotable';
     template: '',
 })
 export class PdfGeneratorComponent {
+    username: string | null = null;
     @Input() tableData: any[];
     @Input() fileName: string;
     @Input() pageSize: string = 'a4';
@@ -57,10 +58,11 @@ export class PdfGeneratorComponent {
             });
 
             const dateTimeText = 'Printed On: ';
+            this.username = localStorage.getItem('username');
             const user = ', Printed By: {user} ';
             doc.setFontSize(10);
             doc.text(
-                `${dateTimeText}${this.getCurrentDateTime()}${user}`,
+                `${dateTimeText}${this.getCurrentDateTime()}-printed by:${this.username}`,
                 pageWidth / 2,
                 pageHeight - 10,
                 { align: 'center' }

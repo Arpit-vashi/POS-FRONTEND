@@ -33,7 +33,7 @@ export class CustomerComponent implements OnInit {
         this.customerForm = this.fb.group({
             name: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
-            phone: ['', Validators.required],
+            phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
             address: ['', Validators.required],
         });
     }

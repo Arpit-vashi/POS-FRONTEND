@@ -170,7 +170,7 @@ export class PrintInvoiceComponent implements OnChanges {
         QRCode.toDataURL(JSON.stringify(this.invoiceData)).then(
             (qrCodeDataUrl) => {
                 doc.addImage(qrCodeDataUrl, 'PNG', 80, 200, 50, 50);
-                doc.save(`${this.fileName}.pdf`);
+                doc.save(`${this.invoiceData.customerName}.pdf`);
             }
         );
     }
