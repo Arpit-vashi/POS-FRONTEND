@@ -274,11 +274,13 @@ export class SaleComponent implements OnInit, OnDestroy {
             this.recalculateCartTotals();
         } else {
             product.quantity = 1;
+            product.originalPrice = product.price;
             this.productsInCart.push(product);
             this.recalculateCartTotals();
         }
         this.saveCartToLocalStorage();
     }
+    
     
     clearCart() {
         this.productsInCart = [];
@@ -406,12 +408,8 @@ export class SaleComponent implements OnInit, OnDestroy {
 
     rewindVoucherChanges() {
         this.totalDiscount = 0;
-        this.products.forEach((p) => {
-            this.productsInCart.forEach((product) => {
-                if (p.productId == product.productId) {
-                    product.price = p.price;
-                }
-            });
+        this.productsInCart.forEach((product) => {
+            product.price = product.originalPrice;
         });
         this.recalculateCartTotals();
     }
@@ -482,6 +480,7 @@ export class SaleComponent implements OnInit, OnDestroy {
         this.clearCart();
         this.saleForm.reset();
         this.initializeForm();
+        this.totalDiscount = 0;
     }
 
     onCustomerChange(event: CustomerResponse) {
@@ -536,12 +535,14 @@ export class SaleComponent implements OnInit, OnDestroy {
             productId: product.productId,
             name: product.name,
             price: product.price,
+            originalPrice: product.originalPrice,
             tax: product.tax,
-            total: product.total,
+            total: (product.price + product.tax) * product.quantity,
             barcodeNumber: product.barcodeNumber,
             quantity: product.quantity,
         }));
     }
+    
     printInvoice() {
         if (this.saleForm) {
             const invoiceData = this.prepareInvoiceData();

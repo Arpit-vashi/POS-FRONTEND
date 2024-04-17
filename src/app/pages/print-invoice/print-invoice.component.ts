@@ -79,6 +79,7 @@ export class PrintInvoiceComponent implements OnChanges {
             `${item.price ? item.price.toFixed(2) : '0.00'}`,
             `${item.tax ? item.tax.toFixed(2) : '0.00'}`,
             `${item.total ? item.total.toFixed(2) : '0.00'}`,
+            `${item.originalPrice ? item.total.toFixed(2) : '0.00'}`,
         ]);
 
         autoTable(doc, {

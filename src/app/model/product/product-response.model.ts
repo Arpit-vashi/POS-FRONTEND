@@ -11,5 +11,6 @@ export interface ProductResponse {
     barcodeNumber: string;
     barcodeImage: string;
     supplierIds: number[];
+    originalPrice?: number;
   }
   
