@@ -3,7 +3,10 @@
     fileName="Invoice_List"
 ></app-print-invoice>
 <div class="card cen" *ngIf="latestAnnouncement">
-    <p><strong>Announcement:</strong><strong style="color: red;">{{ latestAnnouncement?.message }}</strong></p>
+    <p>
+        <strong>Announcement:</strong
+        ><strong style="color: red">{{ latestAnnouncement?.message }}</strong>
+    </p>
 </div>
 <div class="card">
     <div id="Top-Bar">
@@ -80,12 +83,7 @@
         <div class="form-group">
             <label for="productId">Search By Barcode Number</label>
             <div class="form-row">
-                <p-inputNumber
-                    [(ngModel)]="barcodeNumber"
-                    mode="decimal"
-                    inputId="withoutgrouping"
-                    [useGrouping]="false"
-                ></p-inputNumber>
+                <input type="text" pInputText [(ngModel)]="barcodeNumber" />
                 <button
                     pButton
                     pRipple
@@ -196,6 +194,7 @@
                                     inputId="horizontal"
                                     spinnerMode="horizontal"
                                     [step]="1"
+                                    [min]="0"
                                     decrementButtonClass="p-button-danger"
                                     incrementButtonClass="p-button-success"
                                     incrementButtonIcon="pi pi-plus"

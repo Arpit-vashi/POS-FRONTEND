@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { PurchaseOrderService } from '../../service/purchase-order.service';
 import { PurchaseOrderResponse } from '../../model/purchase-order/purchase-order-response.model';
@@ -21,6 +21,7 @@ export class PurchaseOrderComponent implements OnInit {
     purchaseOrderForm: FormGroup;
     suppliers: SupplierResponse[] = [];
     products: any[] = [];
+    minDateValue : Date;
     transportMethods = [
         { name: 'Railway', value: 'Railway' },
         { name: 'By Road', value: 'By Road' },
@@ -53,6 +54,8 @@ export class PurchaseOrderComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.minDateValue = new Date();
+        console.log("Minimum Date Value:", this.minDateValue);
         this.initForm();
         this.loadSuppliers();
         this.getAllPurchaseOrders();
@@ -67,7 +70,7 @@ export class PurchaseOrderComponent implements OnInit {
             buyingPrice: ['', [Validators.required, Validators.min(1)]],
             sellingPrice: ['', [Validators.required, Validators.min(1)]],
             orderDate: ['', Validators.required],
-            deliverDate: ['', Validators.required],
+            deliverDate: ['',[ Validators.required,this.minDateValidator(this.minDateValue)]],
             transportMethod: ['', Validators.required],
             paymentMethod: ['', Validators.required],
             status: ['', Validators.required],
@@ -85,7 +88,12 @@ export class PurchaseOrderComponent implements OnInit {
             }
         );
     }
-
+    minDateValidator(minDate: Date): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+          const forbidden = new Date(control.value) < minDate;
+          return forbidden ? { 'minDate': { value: control.value } } : null;
+        };
+      }
     onRowEditInit(purchaseOrder: PurchaseOrderResponse, index: number) {
         this.currentEditingRowIndex = index;
         this.clonedPurchaseOrders[purchaseOrder.id] = { ...purchaseOrder };

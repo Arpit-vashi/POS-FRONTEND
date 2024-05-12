@@ -2,6 +2,8 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import { AuthService } from '../service/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
     selector: 'app-menu',
@@ -12,7 +14,8 @@ export class AppMenuComponent implements OnInit {
 
     constructor(
         public layoutService: LayoutService,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) {}
 
     // ngOnInit() {
@@ -371,7 +374,7 @@ export class AppMenuComponent implements OnInit {
             ];
         } else {
             // If no roles match, log the user out
-            this.authService.logout();
+            this.router.navigate(['/forbidden']);
         }
     }
 

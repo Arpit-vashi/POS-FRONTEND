@@ -22,6 +22,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { LoginGuard } from '../app/service/login.guard';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 
 @NgModule({
     imports: [
@@ -138,6 +139,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
                     ],
                 },
                 { path: 'notfound', component: NotfoundComponent },
+                { path: 'forbidden', component: ForbiddenComponent },
                 { path: '**', redirectTo: '/notfound' },
             ],
             {

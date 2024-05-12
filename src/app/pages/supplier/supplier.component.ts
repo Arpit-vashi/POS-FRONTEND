@@ -39,7 +39,7 @@ export class SupplierComponent implements OnInit {
             supplierPhone: ['', Validators.required],
             contactPersonEmail: ['', [Validators.required, Validators.email]],
             contactPersonPhone: ['', Validators.required],
-            address: [''],
+            address: ['', Validators.required],
         });
     }
 

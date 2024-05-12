@@ -50,6 +50,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 
 @NgModule({
     declarations: [
@@ -75,7 +76,9 @@ import { UserListComponent } from './pages/user-list/user-list.component';
         ReportComponent,
         InvoiceReturnComponent,
         UserProfileComponent,
-        ChangePasswordComponent
+        ChangePasswordComponent,
+        NotfoundComponent,
+        ForbiddenComponent
     ],
 
     imports: [
